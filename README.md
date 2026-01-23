@@ -26,13 +26,13 @@ automacao_pontopass/
 └── package.json
 ```
 
-## 📦 Instalação
+## Instalação
 
 ```bash
 npm install
 ```
 
-## ⚙️ Configuração
+## Configuração
 
 1. Copie o arquivo `.env.example` para `.env`:
 ```bash
@@ -56,9 +56,9 @@ PASSAGEIRO_EMAIL=seu_email@exemplo.com
 PASSAGEIRO_PASSWORD=SuaSenhaSegura123
 ```
 
-⚠️ **IMPORTANTE**: O arquivo `.env` contém informações sensíveis e já está no `.gitignore`. Nunca commite credenciais reais!
+**IMPORTANTE**: O arquivo `.env` contém informações sensíveis e já está no `.gitignore`. Nunca commite credenciais reais!
 
-## 🧪 Executando os Testes
+## Executando os Testes
 
 **Todos os testes:**
 ```bash
@@ -75,7 +75,7 @@ npm test -- features/login.feature
 npm test -- features/cadastro.feature
 ```
 
-## 🛠️ Usando o Codegen
+## Usando o Codegen
 
 Para gerar novos passos automaticamente:
 
@@ -88,7 +88,7 @@ Interaja com a aplicação e:
 2. Adapte para o POM correspondente em `pages/`
 3. Crie/atualize os steps em `steps/`
 
-## ✅ Funcionalidades Implementadas
+## Funcionalidades Implementadas
 
 ### Login
 - Login com 4 perfis diferentes (Integrador, Proprietário, Cliente, Passageiro)
@@ -102,7 +102,7 @@ Interaja com a aplicação e:
 - Email único com timestamp
 - Page Object: `Cadastro.page.js`
 
-## 📐 Padrões e Boas Práticas
+## Padrões e Boas Práticas
 
 ### Page Object Model (POM)
 - Toda lógica de UI está encapsulada nos POMs (`pages/`)
@@ -119,25 +119,9 @@ Interaja com a aplicação e:
 - `After`: Fecha browser
 - Timeout padrão: 60 segundos
 
-## 🔒 Segurança
-
-Este projeto está configurado para uso seguro em repositórios públicos:
-- ✅ Arquivo `.env` no `.gitignore`
-- ✅ URLs hardcoded removidas (usam variáveis de ambiente)
-- ✅ Arquivo `.env.example` com valores de exemplo
-- ✅ Sem credenciais reais commitadas
-
-## 📝 Tecnologias
+## Tecnologias
 
 - **Playwright**: 1.48.0
 - **Cucumber**: 10.0.0
 - **Node.js**: 24.12.0
 - **dotenv**: 17.2.3
-
-## Próximos Passos
-
-- [ ] Cadastro de usuários logados (Integrador/Proprietário/Cliente)
-- [ ] Testes de navegação pós-login
-- [ ] Relatórios HTML customizados
-- [ ] Integração CI/CD
-
