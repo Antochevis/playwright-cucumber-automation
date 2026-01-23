@@ -1,0 +1,26 @@
+{
+  "name": "automacao-pontopass",
+  "version": "1.0.0",
+  "description": "Automação Playwright com Cucumber",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:debug": "cucumber-js --format json:reports/cucumber-report.json",
+    "codegen": "playwright codegen"
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "automation",
+    "bdd"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.0",
+    "@playwright/test": "^1.48.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}

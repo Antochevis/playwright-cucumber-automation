@@ -1,0 +1,29 @@
+require('dotenv').config();
+const { Before, After, setDefaultTimeout } = require('@cucumber/cucumber');
+const { chromium } = require('@playwright/test');
+const LoginPage = require('../pages/Login.page');
+const CadastroPage = require('../pages/Cadastro.page');
+
+setDefaultTimeout(60000);
+
+let browser;
+let page;
+
+Before(async function() {
+  browser = await chromium.launch({ headless: false });
+  page = await browser.newPage();
+  this.browser = browser;
+  this.page = page;
+  this.loginPage = new LoginPage(page);
+  this.cadastroPage = new CadastroPage(page);
+});
+
+After(async function() {
+  await browser.close();
+});
+After(async function() {
+  if (browser) {
+    await browser.close();
+  }
+});
+module.exports = {};
