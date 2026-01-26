@@ -3,6 +3,7 @@ const { Before, After, setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium } = require('@playwright/test');
 const LoginPage = require('../pages/Login.page');
 const CadastroPage = require('../pages/Cadastro.page');
+const CadastroUsuarioPage = require('../pages/CadastroUsuario.page');
 
 setDefaultTimeout(60000);
 
@@ -16,6 +17,7 @@ Before(async function() {
   this.page = page;
   this.loginPage = new LoginPage(page);
   this.cadastroPage = new CadastroPage(page);
+  this.cadastroUsuarioPage = new CadastroUsuarioPage(page);
 });
 
 After(async function() {
