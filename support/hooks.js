@@ -4,6 +4,7 @@ const { chromium } = require('@playwright/test');
 const LoginPage = require('../pages/Login.page');
 const CadastroPage = require('../pages/Cadastro.page');
 const CadastroUsuarioPage = require('../pages/CadastroUsuario.page');
+const CadastroProprietariosEContratosPage = require('../pages/CadastroProprietariosEContratos.page');
 
 setDefaultTimeout(60000);
 
@@ -18,6 +19,7 @@ Before(async function() {
   this.loginPage = new LoginPage(page);
   this.cadastroPage = new CadastroPage(page);
   this.cadastroUsuarioPage = new CadastroUsuarioPage(page);
+  this.cadastroProprietariosEContratosPage = new CadastroProprietariosEContratosPage(page);
 });
 
 After(async function() {

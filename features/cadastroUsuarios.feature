@@ -1,4 +1,3 @@
-# language: en
 Feature: Cadastro de Usuarios no Sistema
 
   Scenario: Cadastrar usuario como Integrador
