@@ -1,4 +1,7 @@
 Feature: Solicitacao de Cartao pelo Proprietario
+  Como proprietario no sistema
+  Quero solicitar cartoes para operadores cadastrados
+  Para permitir acesso deles ao sistema de transporte
 
   Scenario: Solicitar cartao para operador cadastrado
     Given que eu faco login como "proprietario"

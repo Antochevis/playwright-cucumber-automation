@@ -172,7 +172,6 @@ class CadastroClientesEContratosPage {
     await this.page.getByRole('link', { name: 'Clientes e contratos' }).click();
     await this.page.waitForTimeout(1000);
     
-    // Procura botão "Gerar Contrato" em todas as páginas
     let botaoEncontrado = false;
     let tentativas = 0;
     const maxTentativas = 10;

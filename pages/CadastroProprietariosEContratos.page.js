@@ -172,10 +172,9 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('link', { name: 'Proprietários e contratos' }).click();
     await this.page.waitForTimeout(1000);
     
-    // Procura botão "Gerar Contrato" em todas as páginas
     let botaoEncontrado = false;
     let tentativas = 0;
-    const maxTentativas = 10; // Limita a busca a 10 páginas
+    const maxTentativas = 10; 
     
     while (!botaoEncontrado && tentativas < maxTentativas) {
       const botaoGerarContrato = this.page.getByRole('button', { name: 'Gerar Contrato' }).first();
@@ -185,7 +184,6 @@ class CadastroProprietariosEContratosPage {
         await botaoGerarContrato.click();
         botaoEncontrado = true;
       } else {
-        // Tenta clicar em "Próxima página"
         const botaoProxima = this.page.getByRole('button', { name: 'Próxima página' });
         const temProxima = await botaoProxima.isEnabled({ timeout: 1000 }).catch(() => false);
         

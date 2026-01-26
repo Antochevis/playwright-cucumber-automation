@@ -1,4 +1,7 @@
 Feature: Cadastro de Proprietarios e Contratos
+  Como integrador do sistema
+  Quero cadastrar proprietarios e seus contratos
+  Para gerenciar relacionamentos comerciais
 
   Scenario: Cadastrar proprietario com contrato
     Given que eu faco login como "integrador"

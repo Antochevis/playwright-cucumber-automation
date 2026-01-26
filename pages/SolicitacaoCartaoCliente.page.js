@@ -26,7 +26,6 @@ class SolicitacaoCartaoClientePage {
     await this.page.getByRole('textbox', { name: 'Pin*' }).click();
     await this.page.getByRole('textbox', { name: 'Pin*' }).fill(pin);
     
-    // Tab para sair do campo e validar
     await this.page.keyboard.press('Tab');
     await this.page.waitForTimeout(1500);
     

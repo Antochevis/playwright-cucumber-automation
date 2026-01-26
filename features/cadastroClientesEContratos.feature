@@ -1,4 +1,7 @@
 Feature: Cadastro de Clientes e Contratos
+  Como proprietario no sistema
+  Quero cadastrar clientes e seus contratos
+  Para gerenciar relacionamentos com clientes
 
   Scenario: Cadastrar cliente com contrato
     Given que eu faco login como "proprietario"

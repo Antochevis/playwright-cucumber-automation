@@ -9,8 +9,7 @@ When('eu cadastro um novo cliente sem contrato', async function() {
 });
 
 Given('existe um cliente cadastrado', async function() {
-  // Assume que já existem clientes cadastrados no sistema
-  // Não precisa cadastrar um novo
+    // Assume que já existem clientes cadastrados no sistema
 });
 
 When('eu cadastro um novo contrato para o cliente', async function() {

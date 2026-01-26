@@ -1,4 +1,7 @@
 Feature: Cadastro de Usuarios no Sistema
+  Como usuario autenticado no sistema
+  Quero cadastrar novos usuarios
+  Para gerenciar acessos ao sistema
 
   Scenario: Cadastrar usuario como Integrador
     Given que eu faco login como "integrador"
