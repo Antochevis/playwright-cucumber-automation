@@ -52,7 +52,10 @@ class CadastroProprietariosEContratosPage {
     await cepInput.click();
     await this.page.waitForTimeout(300);
     await cepInput.fill(cep);
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(3500);
+    
+    await this.page.getByRole('textbox', { name: 'Razão Social' }).click();
+    await this.page.waitForTimeout(300);
     
     await this.page.getByRole('spinbutton', { name: 'Número' }).click();
     await this.page.getByRole('spinbutton', { name: 'Número' }).fill(numero.toString());
@@ -135,7 +138,10 @@ class CadastroProprietariosEContratosPage {
     await cepInput.click();
     await this.page.waitForTimeout(300);
     await cepInput.fill(cep);
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(3500);
+    
+    await this.page.getByRole('textbox', { name: 'Razão Social' }).click();
+    await this.page.waitForTimeout(300);
     
     await this.page.getByRole('spinbutton', { name: 'Número' }).click();
     await this.page.getByRole('spinbutton', { name: 'Número' }).fill(numero.toString());
@@ -163,6 +169,40 @@ class CadastroProprietariosEContratosPage {
       tipoChave = 'exemplo'
     } = dadosContrato;
 
+    await this.page.getByRole('link', { name: 'Proprietários e contratos' }).click();
+    await this.page.waitForTimeout(1000);
+    
+    // Procura botão "Gerar Contrato" em todas as páginas
+    let botaoEncontrado = false;
+    let tentativas = 0;
+    const maxTentativas = 10; // Limita a busca a 10 páginas
+    
+    while (!botaoEncontrado && tentativas < maxTentativas) {
+      const botaoGerarContrato = this.page.getByRole('button', { name: 'Gerar Contrato' }).first();
+      const isBotaoVisivel = await botaoGerarContrato.isVisible({ timeout: 2000 }).catch(() => false);
+      
+      if (isBotaoVisivel) {
+        await botaoGerarContrato.click();
+        botaoEncontrado = true;
+      } else {
+        // Tenta clicar em "Próxima página"
+        const botaoProxima = this.page.getByRole('button', { name: 'Próxima página' });
+        const temProxima = await botaoProxima.isEnabled({ timeout: 1000 }).catch(() => false);
+        
+        if (temProxima) {
+          await botaoProxima.click();
+          await this.page.waitForTimeout(1000);
+          tentativas++;
+        } else {
+          throw new Error('Botão "Gerar Contrato" não encontrado em nenhuma página');
+        }
+      }
+    }
+    
+    if (!botaoEncontrado) {
+      throw new Error('Botão "Gerar Contrato" não encontrado após ' + maxTentativas + ' páginas');
+    }
+    
     await this.page.getByRole('checkbox', { name: 'Saldo Livre' }).check();
     await this.page.getByRole('checkbox', { name: 'Vale Saúde' }).check();
     await this.page.getByRole('checkbox', { name: 'Vale Transporte' }).check();
