@@ -22,6 +22,11 @@ Given('que eu faco login como {string}', async function(perfil) {
 
 When('eu cadastro um novo usuario no sistema', async function() {
   this.dadosUsuario = await this.cadastroUsuarioPage.cadastrarUsuario();
+  this.cpfOperadorCadastrado = this.dadosUsuario.cpf; // Salva CPF para solicitação de cartão
+  
+  // Aguarda validação e redirecionamento completar
+  await this.cadastroUsuarioPage.validarCadastroSucesso();
+  await this.page.waitForTimeout(5000); // Aguarda redirecionamento para listagem
 });
 
 Then('o usuario deve ser cadastrado com sucesso', async function() {

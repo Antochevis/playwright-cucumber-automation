@@ -6,6 +6,8 @@ const CadastroPage = require('../pages/Cadastro.page');
 const CadastroUsuarioPage = require('../pages/CadastroUsuario.page');
 const CadastroProprietariosEContratosPage = require('../pages/CadastroProprietariosEContratos.page');
 const CadastroClientesEContratosPage = require('../pages/CadastroClientesEContratos.page');
+const SolicitacaoCartaoProprietarioPage = require('../pages/SolicitacaoCartaoProprietario.page');
+const SolicitacaoCartaoClientePage = require('../pages/SolicitacaoCartaoCliente.page');
 
 setDefaultTimeout(60000);
 
@@ -22,6 +24,8 @@ Before(async function() {
   this.cadastroUsuarioPage = new CadastroUsuarioPage(page);
   this.cadastroProprietariosEContratosPage = new CadastroProprietariosEContratosPage(page);
   this.cadastroClientesEContratosPage = new CadastroClientesEContratosPage(page);
+  this.solicitacaoCartaoProprietarioPage = new SolicitacaoCartaoProprietarioPage(page);
+  this.solicitacaoCartaoClientePage = new SolicitacaoCartaoClientePage(page);
 });
 
 After(async function() {
