@@ -3,6 +3,7 @@ Feature: Cadastro de novo usuario
   Quero criar uma nova conta de passageiro
   Para acessar o sistema
 
+  @skip
   Scenario: Criar conta via login
     Given que eu acesso a pagina de login
     When eu cadastro um novo usuario

@@ -5,7 +5,7 @@ class SolicitacaoCartaoProprietarioPage {
 
   async solicitarCartao(cpf, dadosCartao = {}) {
     const {
-      tipoCartao = 'Cartão Virtual - Livre',
+      tipoCartao = 'Cartão Virtual - Saldo Livre',
       pin = '1234'
     } = dadosCartao;
 
@@ -21,7 +21,7 @@ class SolicitacaoCartaoProprietarioPage {
     
     await this.page.getByText('Selecione um tipo de cartão').click();
     await this.page.waitForTimeout(500);
-    await this.page.getByText(tipoCartao).click();
+    await this.page.locator('div').filter({ hasText: tipoCartao }).nth(4).click();
     
     await this.page.getByRole('textbox', { name: 'Pin*' }).click();
     await this.page.getByRole('textbox', { name: 'Pin*' }).fill(pin);

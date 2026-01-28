@@ -52,10 +52,8 @@ class CadastroProprietariosEContratosPage {
     await cepInput.click();
     await this.page.waitForTimeout(300);
     await cepInput.fill(cep);
-    await this.page.waitForTimeout(3500);
-    
-    await this.page.getByRole('textbox', { name: 'Razão Social' }).click();
-    await this.page.waitForTimeout(300);
+    await this.page.keyboard.press('Tab');
+    await this.page.waitForTimeout(3000);
     
     await this.page.getByRole('spinbutton', { name: 'Número' }).click();
     await this.page.getByRole('spinbutton', { name: 'Número' }).fill(numero.toString());
@@ -77,15 +75,15 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('checkbox', { name: 'Saldo Livre' }).check();
     await this.page.getByRole('checkbox', { name: 'Vale Saúde' }).check();
     await this.page.getByRole('checkbox', { name: 'Vale Transporte' }).check();
-    await this.page.getByRole('checkbox', { name: 'Físico' }).check();
-    await this.page.getByRole('checkbox', { name: 'Digital' }).check();
+    await this.page.getByRole('checkbox', { name: 'Compras presenciais (Cartão F' }).check();
+    await this.page.getByRole('checkbox', { name: 'Compras online (Cartão' }).check();
     await this.page.getByRole('checkbox', { name: 'PIX' }).check();
     
-    await this.page.getByRole('textbox', { name: 'Chave PIX' }).click();
-    await this.page.getByRole('textbox', { name: 'Chave PIX' }).fill(chavePix);
+    await this.page.getByRole('textbox', { name: 'Chave PIX*' }).click();
+    await this.page.getByRole('textbox', { name: 'Chave PIX*' }).fill(chavePix);
     
-    await this.page.getByRole('textbox', { name: 'Tipo de Chave' }).click();
-    await this.page.getByRole('textbox', { name: 'Tipo de Chave' }).fill(tipoChave);
+    await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).click();
+    await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).fill(tipoChave);
     
     await this.page.waitForTimeout(1000);
     await this.page.getByRole('button', { name: 'Salvar' }).click();
@@ -138,10 +136,8 @@ class CadastroProprietariosEContratosPage {
     await cepInput.click();
     await this.page.waitForTimeout(300);
     await cepInput.fill(cep);
-    await this.page.waitForTimeout(3500);
-    
-    await this.page.getByRole('textbox', { name: 'Razão Social' }).click();
-    await this.page.waitForTimeout(300);
+    await this.page.keyboard.press('Tab');
+    await this.page.waitForTimeout(3000);
     
     await this.page.getByRole('spinbutton', { name: 'Número' }).click();
     await this.page.getByRole('spinbutton', { name: 'Número' }).fill(numero.toString());
@@ -204,15 +200,18 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('checkbox', { name: 'Saldo Livre' }).check();
     await this.page.getByRole('checkbox', { name: 'Vale Saúde' }).check();
     await this.page.getByRole('checkbox', { name: 'Vale Transporte' }).check();
-    await this.page.getByRole('checkbox', { name: 'Físico' }).check();
-    await this.page.getByRole('checkbox', { name: 'Digital' }).check();
+    await this.page.getByRole('checkbox', { name: 'Compras presenciais (Cartão F' }).check();
+    await this.page.getByRole('checkbox', { name: 'Compras online (Cartão' }).check();
+    
+    await this.page.getByRole('radio', { name: 'Independente O proprietário' }).check();
+    
     await this.page.getByRole('checkbox', { name: 'PIX' }).check();
     
-    await this.page.getByRole('textbox', { name: 'Chave PIX' }).click();
-    await this.page.getByRole('textbox', { name: 'Chave PIX' }).fill(chavePix);
+    await this.page.getByRole('textbox', { name: 'Chave PIX*' }).click();
+    await this.page.getByRole('textbox', { name: 'Chave PIX*' }).fill(chavePix);
     
-    await this.page.getByRole('textbox', { name: 'Tipo de Chave' }).click();
-    await this.page.getByRole('textbox', { name: 'Tipo de Chave' }).fill(tipoChave);
+    await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).click();
+    await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).fill(tipoChave);
     
     await this.page.waitForTimeout(1000);
     await this.page.getByRole('button', { name: 'Salvar' }).click();
