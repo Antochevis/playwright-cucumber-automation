@@ -12,12 +12,18 @@ const SolicitacaoCartaoClientePage = require('../pages/SolicitacaoCartaoCliente.
 setDefaultTimeout(60000);
 
 let browser;
+let context;
 let page;
 
 Before(async function() {
   browser = await chromium.launch({ headless: false });
-  page = await browser.newPage();
+  context = await browser.newContext();
+  
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  
+  page = await context.newPage();
   this.browser = browser;
+  this.context = context;
   this.page = page;
   this.loginPage = new LoginPage(page);
   this.cadastroPage = new CadastroPage(page);

@@ -88,6 +88,11 @@ function gerarIE() {
   return Math.floor(Math.random() * 9000000000) + 1000000000;
 }
 
+function gerarValorCredito() {
+  // Gera valor entre 100 e 1000 reais
+  return Math.floor(Math.random() * 901) + 100;
+}
+
 module.exports = {
   gerarNome,
   gerarEmail,
@@ -97,5 +102,6 @@ module.exports = {
   gerarTelefone,
   gerarCEP,
   gerarCodigo,
-  gerarIE
+  gerarIE,
+  gerarValorCredito
 };
