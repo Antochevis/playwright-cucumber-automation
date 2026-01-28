@@ -4,8 +4,8 @@ const DistribuirSaldoClientePage = require('../pages/DistribuirSaldoCliente.page
 When('eu verifico meu saldo de proprietario', async function () {
   const distribuirSaldoClientePage = new DistribuirSaldoClientePage(this.page);
   this.saldosAnteriores = await distribuirSaldoClientePage.capturarSaldoProprietarioECliente();
-  console.log(`Saldo inicial (proprietario): R$ ${this.saldosAnteriores.saldoProprietario.toFixed(2)}`);
-  console.log(`Saldo inicial (cliente): R$ ${this.saldosAnteriores.saldoCliente.toFixed(2)}`);
+  console.log(`Saldo inicial proprietario: R$ ${this.saldosAnteriores.saldoProprietario.toFixed(2)}`);
+  console.log(`Saldo inicial cliente: R$ ${this.saldosAnteriores.saldoCliente.toFixed(2)}`);
 });
 
 When('eu distribuo saldo aleatorio para um cliente', async function () {

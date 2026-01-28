@@ -8,8 +8,8 @@ When('eu verifico meu saldo atual', async function () {
   const perfil = this.perfilLogado || 'proprietario';
   
   this.saldosAnteriores = await distribuirSaldoCartaoPage.capturarSaldoUsuarioECartoes(perfil);
-  console.log(`Saldo inicial (usuario): R$ ${this.saldosAnteriores.saldoUsuario.toFixed(2)}`);
-  console.log(`Saldo inicial (cartoes): R$ ${this.saldosAnteriores.saldoCartoes.toFixed(2)}`);
+  console.log(`Saldo inicial usuario: R$ ${this.saldosAnteriores.saldoUsuario.toFixed(2)}`);
+  console.log(`Saldo inicial cartoes: R$ ${this.saldosAnteriores.saldoCartoes.toFixed(2)}`);
 });
 
 When('eu distribuo saldo aleatorio para um cartao', async function () {
@@ -24,6 +24,7 @@ When('eu distribuo saldo aleatorio para um cartao', async function () {
 });
 
 When('eu confirmo o pagamento com saldo disponivel', async function () {
+  console.log(`Metodo de pagamento: SALDO`);
   const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
   await distribuirSaldoCartaoPage.confirmarPagamentoComSaldo();
   
@@ -32,6 +33,7 @@ When('eu confirmo o pagamento com saldo disponivel', async function () {
 });
 
 When('eu confirmo o pagamento via PIX no gateway', async function () {
+  console.log(`Metodo de pagamento: PIX`);
   const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
   
   await distribuirSaldoCartaoPage.confirmarPagamentoComPIX();

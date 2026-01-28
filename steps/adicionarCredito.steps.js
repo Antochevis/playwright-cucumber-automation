@@ -4,7 +4,7 @@ const AdicionarCreditoPage = require('../pages/AdicionarCredito.page');
 When('eu verifico o saldo atual', async function () {
   const adicionarCreditoPage = new AdicionarCreditoPage(this.page, this.context);
   this.saldoAnterior = await adicionarCreditoPage.capturarSaldoAtual();
-  console.log(`Saldo inicial capturado: R$ ${this.saldoAnterior.toFixed(2)}`);
+  console.log(`Saldo inicial: R$ ${this.saldoAnterior.toFixed(2)}`);
 });
 
 When('eu adiciono credito aleatorio via PIX', async function () {

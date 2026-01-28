@@ -7,27 +7,30 @@ class AdicionarCreditoPage {
   }
 
   async capturarSaldoAtual() {
+    // Vai para a tela de Saldos
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
-    // Procura por diferentes padrões de exibição do saldo
+    // Pega o valor do saldo que está na tela
     let saldoTexto;
     
     try {
-      // Tenta localizar pelo padrão: "R$ X.XXX,XX" em tags <strong> ou <p>
+      // Primeiro tenta encontrar em tags comuns como <p> ou <strong>
       saldoTexto = await this.page.locator('p, strong').filter({ hasText: /^R\$\s*\d/ }).first().textContent({ timeout: 5000 });
     } catch (error) {
-      // Se falhar, tenta pegar qualquer texto que comece com R$
+      // Se não achar, procura de outra forma
       saldoTexto = await this.page.locator('text=/R\\$\\s*\\d/').first().textContent({ timeout: 5000 });
     }
     
-    // Remove "R$", pontos e vírgula, converte para número
+    // Transforma o texto "R$ 1.234,56" em número 1234.56
     const saldoNumero = parseFloat(saldoTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
     
     return saldoNumero;
   }
 
   async capturarSaldoSemNavegacao() {
+    // Mesma coisa que capturarSaldoAtual, mas sem clicar em "Saldos"
+    // Útil quando já estamos na página de saldos
     await this.page.waitForTimeout(2000);
     
     let saldoTexto;
@@ -44,28 +47,33 @@ class AdicionarCreditoPage {
   }
 
   async validarSaldoAtualizado(saldoAnterior, valorAdicionado) {
-    // Fecha o modal clicando no botão X (Fechar janela) - usa .last() pois pode haver múltiplos modais
+    // Fecha a mensagem de "Pagamento aprovado"
+    // Usa .last() porque às vezes tem mais de um botão X na tela
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Aguarda processamento do backend antes de recarregar
+    // Espera 8 segundos pro backend processar tudo
+    // O saldo não atualiza na hora, precisa esperar
     await this.page.waitForTimeout(8000);
     
-    // Recarrega a página para atualizar o saldo
+    // Atualiza a página pra pegar o saldo novo
     await this.page.reload();
     await this.page.waitForTimeout(2000);
     
-    // Navega para Saldos para garantir que estamos na página certa
+    // Vai pra tela de Saldos pra conferir
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
+    // Pega o saldo atualizado e calcula quanto deveria ser
     const saldoAtual = await this.capturarSaldoSemNavegacao();
     const saldoEsperado = saldoAnterior + valorAdicionado;
     
+    // Mostra no console pra gente acompanhar
     console.log(`Saldo anterior: R$ ${saldoAnterior.toFixed(2)}`);
     console.log(`Valor adicionado: R$ ${valorAdicionado.toFixed(2)}`);
     console.log(`Saldo atual: R$ ${saldoAtual.toFixed(2)}`);
     console.log(`Saldo esperado: R$ ${saldoEsperado.toFixed(2)}`);
     
+    // Confere se o saldo bateu (com margem de 1 centavo pra não dar erro por arredondamento)
     if (Math.abs(saldoAtual - saldoEsperado) > 0.01) {
       throw new Error(`Saldo incorreto! Esperado: R$ ${saldoEsperado.toFixed(2)}, Atual: R$ ${saldoAtual.toFixed(2)}`);
     }
