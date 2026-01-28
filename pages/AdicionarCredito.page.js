@@ -6,6 +6,73 @@ class AdicionarCreditoPage {
     this.context = context;
   }
 
+  async capturarSaldoAtual() {
+    await this.page.getByRole('link', { name: 'Saldos' }).click();
+    await this.page.waitForTimeout(2000);
+    
+    // Procura por diferentes padrões de exibição do saldo
+    let saldoTexto;
+    
+    try {
+      // Tenta localizar pelo padrão: "R$ X.XXX,XX" em tags <strong> ou <p>
+      saldoTexto = await this.page.locator('p, strong').filter({ hasText: /^R\$\s*\d/ }).first().textContent({ timeout: 5000 });
+    } catch (error) {
+      // Se falhar, tenta pegar qualquer texto que comece com R$
+      saldoTexto = await this.page.locator('text=/R\\$\\s*\\d/').first().textContent({ timeout: 5000 });
+    }
+    
+    // Remove "R$", pontos e vírgula, converte para número
+    const saldoNumero = parseFloat(saldoTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
+    
+    return saldoNumero;
+  }
+
+  async capturarSaldoSemNavegacao() {
+    await this.page.waitForTimeout(2000);
+    
+    let saldoTexto;
+    
+    try {
+      saldoTexto = await this.page.locator('p, strong').filter({ hasText: /^R\$\s*\d/ }).first().textContent({ timeout: 5000 });
+    } catch (error) {
+      saldoTexto = await this.page.locator('text=/R\\$\\s*\\d/').first().textContent({ timeout: 5000 });
+    }
+    
+    const saldoNumero = parseFloat(saldoTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
+    
+    return saldoNumero;
+  }
+
+  async validarSaldoAtualizado(saldoAnterior, valorAdicionado) {
+    // Fecha o modal clicando no botão X (Fechar janela) - usa .last() pois pode haver múltiplos modais
+    await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
+    
+    // Aguarda processamento do backend antes de recarregar
+    await this.page.waitForTimeout(8000);
+    
+    // Recarrega a página para atualizar o saldo
+    await this.page.reload();
+    await this.page.waitForTimeout(2000);
+    
+    // Navega para Saldos para garantir que estamos na página certa
+    await this.page.getByRole('link', { name: 'Saldos' }).click();
+    await this.page.waitForTimeout(2000);
+    
+    const saldoAtual = await this.capturarSaldoSemNavegacao();
+    const saldoEsperado = saldoAnterior + valorAdicionado;
+    
+    console.log(`Saldo anterior: R$ ${saldoAnterior.toFixed(2)}`);
+    console.log(`Valor adicionado: R$ ${valorAdicionado.toFixed(2)}`);
+    console.log(`Saldo atual: R$ ${saldoAtual.toFixed(2)}`);
+    console.log(`Saldo esperado: R$ ${saldoEsperado.toFixed(2)}`);
+    
+    if (Math.abs(saldoAtual - saldoEsperado) > 0.01) {
+      throw new Error(`Saldo incorreto! Esperado: R$ ${saldoEsperado.toFixed(2)}, Atual: R$ ${saldoAtual.toFixed(2)}`);
+    }
+    
+    return true;
+  }
+
   async adicionarCredito(valor = null) {
     const valorCredito = valor || gerarValorCredito();
     

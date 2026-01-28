@@ -1,6 +1,17 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const DistribuirSaldoCartaoPage = require('../pages/DistribuirSaldoCartao.page');
 
+When('eu verifico meu saldo atual', async function () {
+  const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
+  
+  // Detecta o perfil do usuário logado (salvo no step de login)
+  const perfil = this.perfilLogado || 'proprietario';
+  
+  this.saldosAnteriores = await distribuirSaldoCartaoPage.capturarSaldoUsuarioECartoes(perfil);
+  console.log(`Saldo inicial (usuario): R$ ${this.saldosAnteriores.saldoUsuario.toFixed(2)}`);
+  console.log(`Saldo inicial (cartoes): R$ ${this.saldosAnteriores.saldoCartoes.toFixed(2)}`);
+});
+
 When('eu distribuo saldo aleatorio para um cartao', async function () {
   const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
   
@@ -9,7 +20,7 @@ When('eu distribuo saldo aleatorio para um cartao', async function () {
   
   this.valorDistribuido = await distribuirSaldoCartaoPage.distribuirSaldo(perfil);
   
-  console.log(`💳 Valor distribuído para cartão (${perfil}): R$ ${this.valorDistribuido},00`);
+  console.log(`Valor distribuido para cartao (${perfil}): R$ ${this.valorDistribuido},00`);
 });
 
 When('eu confirmo o pagamento com saldo disponivel', async function () {
@@ -40,4 +51,13 @@ Then('o saldo deve ser distribuido para o cartao com sucesso', async function ()
   } else {
     await distribuirSaldoCartaoPage.validarDistribuicaoSucesso();
   }
+});
+
+Then('meu saldo deve ser atualizado corretamente', async function () {
+  const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
+  
+  // Detecta o perfil do usuário logado
+  const perfil = this.perfilLogado || 'proprietario';
+  
+  await distribuirSaldoCartaoPage.validarSaldosAtualizados(this.saldosAnteriores, this.valorDistribuido, perfil, this.pagamentoViaPIX);
 });

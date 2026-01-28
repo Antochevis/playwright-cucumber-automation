@@ -5,9 +5,11 @@ Feature: Adicionar Credito
 
   Scenario Outline: Adicionar credito com pagamento PIX aprovado como <perfil>
     Given que eu faco login como "<perfil>"
-    When eu adiciono credito aleatorio via PIX
+    When eu verifico o saldo atual
+    And eu adiciono credito aleatorio via PIX
     And eu realizo o pagamento no gateway
     Then o credito deve ser aprovado com sucesso
+    And o saldo deve ser atualizado corretamente
 
     Examples:
       | perfil       |

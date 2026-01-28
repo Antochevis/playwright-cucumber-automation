@@ -5,9 +5,11 @@ Feature: Distribuir Saldo para Cartao
 
   Scenario Outline: Distribuir saldo para cartao com pagamento via saldo como <perfil>
     Given que eu faco login como "<perfil>"
-    When eu distribuo saldo aleatorio para um cartao
+    When eu verifico meu saldo atual
+    And eu distribuo saldo aleatorio para um cartao
     And eu confirmo o pagamento com saldo disponivel
     Then o saldo deve ser distribuido para o cartao com sucesso
+    And meu saldo deve ser atualizado corretamente
 
     Examples:
       | perfil       |
@@ -16,9 +18,11 @@ Feature: Distribuir Saldo para Cartao
 
   Scenario Outline: Distribuir saldo para cartao com pagamento via PIX como <perfil>
     Given que eu faco login como "<perfil>"
-    When eu distribuo saldo aleatorio para um cartao
+    When eu verifico meu saldo atual
+    And eu distribuo saldo aleatorio para um cartao
     And eu confirmo o pagamento via PIX no gateway
     Then o saldo deve ser distribuido para o cartao com sucesso
+    And meu saldo deve ser atualizado corretamente
 
     Examples:
       | perfil       |
