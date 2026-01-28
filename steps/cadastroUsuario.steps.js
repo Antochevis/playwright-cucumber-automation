@@ -18,6 +18,9 @@ Given('que eu faco login como {string}', async function(perfil) {
 
   const { email, senha } = credenciais[perfil];
   await this.loginPage.login(email, senha);
+  
+  // Salva o perfil para uso em outros steps
+  this.perfilLogado = perfil;
 });
 
 When('eu cadastro um novo usuario no sistema', async function() {
