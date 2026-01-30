@@ -7,21 +7,16 @@ class DistribuirSaldoCartaoPage {
   }
 
   async capturarSaldoUsuarioECartoes(perfil) {
-    // Vai pra tela de Saldos
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
     let saldoUsuario, saldoCartoes;
     
-    // Proprietário e cliente têm layouts diferentes na tela
     if (perfil === 'proprietario') {
-      // Pro proprietário tem 3 valores: Saldo Total, Total em clientes, Total em cartões
-      // Pega todos os headings e usa o 1º (saldo) e 3º (cartões)
       const headings = await this.page.getByRole('heading').filter({ hasText: /^R\$\s*\d/ }).allTextContents();
       saldoUsuario = parseFloat(headings[0].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
       saldoCartoes = parseFloat(headings[2].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
     } else {
-      // Pro cliente é mais simples: 1º é saldo dele, 2º é total em cartões
       const headings = await this.page.getByRole('heading').filter({ hasText: /^R\$\s*\d/ }).allTextContents();
       saldoUsuario = parseFloat(headings[0].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
       saldoCartoes = parseFloat(headings[1].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
@@ -64,29 +59,22 @@ class DistribuirSaldoCartaoPage {
   }
 
   async validarSaldosAtualizados(saldosAnteriores, valorDistribuido, perfil, pagamentoViaPIX = false) {
-    // Fecha o modal clicando no botão X (Fechar janela) - usa .last() pois pode haver múltiplos modais
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Fecha a mensagem de sucesso
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Espera o backend processar tudo (8 segundos porque cartão demora mais)
     await this.page.waitForTimeout(8000);
     
-    // Atualiza a página pra ver os novos valores
     await this.page.reload();
     await this.page.waitForTimeout(2000);
     
-    // Vai pra tela de Saldos conferir
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
-    // Pega todos os valores da tela
     const headings = await this.page.getByRole('heading').filter({ hasText: /^R\$\s*\d/ }).allTextContents();
     
     let saldoUsuarioAtual, saldoCartoesAtual;
     
-    // Pega os valores certos dependendo se é proprietário ou cliente
     if (perfil === 'proprietario') {
       saldoUsuarioAtual = parseFloat(headings[0].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
       saldoCartoesAtual = parseFloat(headings[2].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
@@ -95,15 +83,11 @@ class DistribuirSaldoCartaoPage {
       saldoCartoesAtual = parseFloat(headings[1].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
     }
     
-    // Calcula quanto deveria ser:
-    // - Se foi PIX: saldo do usuário não muda, só os cartões aumentam
-    // - Se foi com saldo: saldo do usuário diminui E cartões aumentam
     const saldoUsuarioEsperado = pagamentoViaPIX 
       ? saldosAnteriores.saldoUsuario 
       : saldosAnteriores.saldoUsuario - valorDistribuido;
     const saldoCartoesEsperado = saldosAnteriores.saldoCartoes + valorDistribuido;
     
-    // Mostra tudo no console pra acompanhar
     console.log(`\nUSUARIO (${pagamentoViaPIX ? 'PIX' : 'SALDO'}):`);
     console.log(`   Saldo anterior: R$ ${saldosAnteriores.saldoUsuario.toFixed(2)}`);
     console.log(`   Saldo atual: R$ ${saldoUsuarioAtual.toFixed(2)}`);
@@ -116,7 +100,6 @@ class DistribuirSaldoCartaoPage {
     
     console.log(`\nValor distribuido: R$ ${valorDistribuido.toFixed(2)}\n`);
     
-    // Confere se bateu (com margem de 1 centavo)
     if (Math.abs(saldoUsuarioAtual - saldoUsuarioEsperado) > 0.01) {
       throw new Error(`Saldo do usuario incorreto! Esperado: R$ ${saldoUsuarioEsperado.toFixed(2)}, Atual: R$ ${saldoUsuarioAtual.toFixed(2)}`);
     }
@@ -129,17 +112,13 @@ class DistribuirSaldoCartaoPage {
   }
 
   async validarSaldoAtualizado(saldoAnterior, valorDistribuido) {
-    // Fecha o modal clicando no botão X (Fechar janela) - usa .last() pois pode haver múltiplos modais
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Aguarda processamento do backend antes de recarregar
     await this.page.waitForTimeout(8000);
     
-    // Recarrega a página para atualizar o saldo
     await this.page.reload();
     await this.page.waitForTimeout(2000);
     
-    // Navega para Saldos para garantir que estamos na página certa
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
@@ -159,19 +138,16 @@ class DistribuirSaldoCartaoPage {
   }
 
   async distribuirSaldo(perfil, valor = null) {
-    // Se não passar valor, gera aleatório entre 100 e 1000
     const valorDistribuicao = valor || gerarValorCredito();
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     
-    // Proprietário usa o segundo botão, Cliente usa o primeiro
     if (perfil === 'proprietario') {
       await this.page.getByRole('button', { name: 'Distribuir saldos' }).nth(1).click();
     } else {
       await this.page.getByRole('button', { name: 'Distribuir saldos' }).click();
     }
     
-    // Pega o primeiro cartão disponível da lista
     const primeiraLinha = this.page.getByRole('row').nth(1); // nth(0) é o header
     const inputValor = primeiraLinha.getByPlaceholder('300,00');
     
@@ -187,7 +163,6 @@ class DistribuirSaldoCartaoPage {
     await this.page.getByRole('button', { name: 'Fazer pagamento' }).click();
     await this.page.waitForTimeout(1000);
     
-    // Seleciona aba Saldo
     await this.page.getByRole('tab', { name: 'Saldo' }).click();
     await this.page.waitForTimeout(500);
     
@@ -198,7 +173,6 @@ class DistribuirSaldoCartaoPage {
     await this.page.getByRole('button', { name: 'Fazer pagamento' }).click();
     await this.page.waitForTimeout(1000);
     
-    // Aba PIX já vem selecionada por padrão
     await this.page.getByRole('button', { name: 'Gerar QR Code' }).click();
     await this.page.waitForTimeout(2000);
   }
@@ -228,13 +202,11 @@ class DistribuirSaldoCartaoPage {
   }
 
   async validarDistribuicaoSucesso() {
-    // Validação para pagamento com SALDO
     await this.page.getByText('Saldo distribuído com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
     await this.page.getByRole('heading', { name: 'Pagamento aprovado' }).waitFor({ state: 'visible', timeout: 10000 });
   }
 
   async validarDistribuicaoSucessoViaPIX() {
-    // Validação para pagamento via PIX (webhook pode demorar)
     await this.page.bringToFront();
     await this.page.waitForTimeout(2000);
     

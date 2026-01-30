@@ -9,7 +9,6 @@ When('eu cadastro um novo proprietario sem contrato', async function() {
 });
 
 Given('existe um proprietario cadastrado', async function() {
-    // Assume que já existem proprietarios cadastrados no sistema
 });
 
 When('eu cadastro um novo contrato para o proprietario', async function() {

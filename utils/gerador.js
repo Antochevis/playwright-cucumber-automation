@@ -64,16 +64,12 @@ function gerarNomeFantasia() {
 }
 
 function gerarTelefone() {
-  // Gera DDD válido
   const ddd = Math.floor(Math.random() * 90) + 10;
-  // Decide se será fixo (10 dígitos) ou móvel (11 dígitos)
   const isMovel = Math.random() < 0.5;
   if (isMovel) {
-    // Móvel: DDD + 9 + 8 dígitos
     const movel = Math.floor(Math.random() * 90000000) + 10000000;
     return `${ddd}9${movel}`;
   } else {
-    // Fixo: DDD + 8 dígitos
     const fixo = Math.floor(Math.random() * 90000000) + 10000000;
     return `${ddd}${fixo}`;
   }
@@ -99,7 +95,6 @@ function gerarIE() {
 }
 
 function gerarValorCredito() {
-  // Gera valor entre 100 e 1000 reais
   return Math.floor(Math.random() * 901) + 100;
 }
 

@@ -15,11 +15,10 @@ let browser;
 let context;
 let page;
 
-// Mostra o nome do cenário antes de executar
 Before(async function(scenario) {
-  console.log(`\n${'='.repeat(80)}`);
+  console.log(`\n${'='.repeat(20)}`);
   console.log(`CENARIO: ${scenario.pickle.name}`);
-  console.log(`${'='.repeat(80)}\n`);
+  console.log(`${'='.repeat(20)}\n`);
   
   browser = await chromium.launch({ headless: false });
   context = await browser.newContext();

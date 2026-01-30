@@ -9,10 +9,8 @@ class DistribuirSaldoClientePage {
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
-    // Captura todos os headings com valores (R$)
     const headings = await this.page.getByRole('heading').filter({ hasText: /^R\$\s*\d/ }).allTextContents();
     
-    // Primeiro valor é do proprietário, segundo é do cliente
     const saldoProprietario = parseFloat(headings[0].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
     const saldoCliente = parseFloat(headings[1].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
     
@@ -53,21 +51,16 @@ class DistribuirSaldoClientePage {
   }
 
   async validarSaldosAtualizados(saldosAnteriores, valorDistribuido) {
-    // Fecha o modal clicando no botão X (Fechar janela) - usa .last() pois pode haver múltiplos modais
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Aguarda processamento do backend antes de recarregar
     await this.page.waitForTimeout(8000);
     
-    // Recarrega a página para atualizar o saldo
     await this.page.reload();
     await this.page.waitForTimeout(2000);
     
-    // Navega para Saldos para garantir que estamos na página certa
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
-    // Captura os headings com valores (R$) - primeiro é proprietário, segundo é cliente
     const headings = await this.page.getByRole('heading').filter({ hasText: /^R\$\s*\d/ }).allTextContents();
     
     const saldoProprietarioAtual = parseFloat(headings[0].replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
@@ -88,12 +81,10 @@ class DistribuirSaldoClientePage {
     
     console.log(`\nValor distribuido: R$ ${valorDistribuido.toFixed(2)}\n`);
     
-    // Valida saldo do proprietário
     if (Math.abs(saldoProprietarioAtual - saldoProprietarioEsperado) > 0.01) {
       throw new Error(`Saldo do proprietário incorreto! Esperado: R$ ${saldoProprietarioEsperado.toFixed(2)}, Atual: R$ ${saldoProprietarioAtual.toFixed(2)}`);
     }
     
-    // Valida saldo do cliente
     if (Math.abs(saldoClienteAtual - saldoClienteEsperado) > 0.01) {
       throw new Error(`Saldo do cliente incorreto! Esperado: R$ ${saldoClienteEsperado.toFixed(2)}, Atual: R$ ${saldoClienteAtual.toFixed(2)}`);
     }
@@ -102,17 +93,13 @@ class DistribuirSaldoClientePage {
   }
 
   async validarSaldoAtualizado(saldoAnterior, valorDistribuido) {
-    // Fecha o modal clicando no botão X (Fechar janela) - usa .last() pois pode haver múltiplos modais
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Aguarda processamento do backend antes de recarregar
     await this.page.waitForTimeout(8000);
     
-    // Recarrega a página para atualizar o saldo
     await this.page.reload();
     await this.page.waitForTimeout(2000);
     
-    // Navega para Saldos para garantir que estamos na página certa
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
@@ -132,13 +119,11 @@ class DistribuirSaldoClientePage {
   }
 
   async distribuirSaldo(valor = null) {
-    // Se não passar valor, gera aleatório entre 100 e 1000
     const valorDistribuicao = valor || gerarValorCredito();
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.getByRole('button', { name: 'Distribuir saldos' }).first().click();
     
-    // Pega o primeiro cliente disponível da lista
     const primeiraLinha = this.page.getByRole('row').nth(1); // nth(0) é o header
     const inputValor = primeiraLinha.getByPlaceholder('300,00');
     
