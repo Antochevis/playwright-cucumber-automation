@@ -1,10 +1,22 @@
-Feature: Solicitacao de Cartao pelo Proprietario
+Feature: Solicitacao de Cartao Virtual de Saldo Livre pelo Proprietario
   Como proprietario no sistema
-  Quero solicitar cartoes para operadores cadastrados
+  Quero solicitar cartoes virtuais de saldo livre para operadores cadastrados
   Para permitir acesso deles ao sistema de transporte
 
-  Scenario: Solicitar cartao para operador cadastrado
+  Scenario: Solicitar cartao virtual de saldo livre para operador cadastrado
     Given que eu faco login como "proprietario"
     And eu cadastro um novo usuario no sistema
-    When eu solicito um cartao para o operador cadastrado como proprietario
-    Then o cartao deve ser solicitado com sucesso pelo proprietario
+    When eu solicito um cartao virtual de saldo livre para o operador cadastrado como proprietario
+    Then o cartao virtual de saldo livre deve ser solicitado com sucesso pelo proprietario
+
+  Scenario: Solicitar 1 cartao fisico de saldo livre para operador cadastrado
+    Given que eu faco login como "proprietario"
+    And eu cadastro um novo usuario no sistema
+    When eu solicito 1 cartao fisico de saldo livre para o operador cadastrado como proprietario
+    Then o pedido de cartao fisico deve ser gerado com sucesso pelo proprietario
+
+  Scenario: Solicitar 2 cartoes fisicos de saldo livre para operador cadastrado
+    Given que eu faco login como "proprietario"
+    And eu cadastro um novo usuario no sistema
+    When eu solicito 2 cartoes fisicos de saldo livre para o operador cadastrado como proprietario
+    Then o pedido de cartoes fisicos deve ser gerado com sucesso pelo proprietario
