@@ -27,42 +27,45 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('link', { name: 'Proprietários e contratos' }).click();
     await this.page.getByRole('link', { name: 'Cadastrar' }).click();
     
-    await this.page.getByRole('textbox', { name: 'Código' }).click();
-    await this.page.getByRole('textbox', { name: 'Código' }).fill(codigo.toString());
+    await this.page.getByRole('textbox', { name: 'Código*' }).click();
+    await this.page.getByRole('textbox', { name: 'Código*' }).fill(codigo.toString());
     
-    const cnpjInput = this.page.getByRole('textbox', { name: 'CNPJ' });
+    const cnpjInput = this.page.getByRole('textbox', { name: 'CNPJ*' });
     await cnpjInput.click();
-    await this.page.waitForTimeout(300);
-    await cnpjInput.fill(cnpj);
+    await cnpjInput.pressSequentially(cnpj, { delay: 100 });
     await this.page.waitForTimeout(500);
     
-    await this.page.getByRole('textbox', { name: 'Inscrição Estadual (IE)' }).click();
-    await this.page.getByRole('textbox', { name: 'Inscrição Estadual (IE)' }).fill(ie.toString());
+    const ieInput = this.page.getByRole('textbox', { name: 'Inscrição Estadual (IE)*' });
+    await ieInput.click();
+    await ieInput.pressSequentially(ie.toString(), { delay: 100 });
+    await this.page.waitForTimeout(500);
     
-    await this.page.getByRole('textbox', { name: 'Razão Social' }).click();
-    await this.page.getByRole('textbox', { name: 'Razão Social' }).fill(razaoSocial);
+    await this.page.getByRole('textbox', { name: 'Razão Social*' }).click();
+    await this.page.getByRole('textbox', { name: 'Razão Social*' }).fill(razaoSocial);
     
-    await this.page.getByRole('textbox', { name: 'Nome Fantasia' }).click();
-    await this.page.getByRole('textbox', { name: 'Nome Fantasia' }).fill(nomeFantasia);
+    await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).click();
+    await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).fill(nomeFantasia);
     
-    await this.page.getByRole('textbox', { name: 'E-mail' }).click();
-    await this.page.getByRole('textbox', { name: 'E-mail' }).fill(email);
+    await this.page.getByRole('textbox', { name: 'E-mail*' }).click();
+    await this.page.getByRole('textbox', { name: 'E-mail*' }).fill(email);
     
-    const cepInput = this.page.getByRole('textbox', { name: 'CEP' });
+    const cepInput = this.page.getByRole('textbox', { name: 'CEP*' });
     await cepInput.click();
-    await this.page.waitForTimeout(300);
-    await cepInput.fill(cep);
-    await this.page.keyboard.press('Tab');
+    await cepInput.pressSequentially(cep, { delay: 100 });
     await this.page.waitForTimeout(3000);
     
-    await this.page.getByRole('spinbutton', { name: 'Número' }).click();
-    await this.page.getByRole('spinbutton', { name: 'Número' }).fill(numero.toString());
+    await this.page.getByRole('spinbutton', { name: 'Número*' }).click();
+    await this.page.getByRole('spinbutton', { name: 'Número*' }).fill(numero.toString());
     
-    await this.page.getByRole('textbox', { name: 'Telefone' }).click();
-    await this.page.getByRole('textbox', { name: 'Telefone' }).fill(telefone);
+    const telefoneInput = this.page.getByRole('textbox', { name: 'Telefone*' });
+    await telefoneInput.click();
+    await telefoneInput.pressSequentially(telefone, { delay: 100 });
+    await this.page.waitForTimeout(500);
     
-    await this.page.getByRole('textbox', { name: 'Email para contato' }).click();
-    await this.page.getByRole('textbox', { name: 'Email para contato' }).fill(emailContato);
+    const emailContatoInput = this.page.getByRole('textbox', { name: 'Email para contato*' });
+    await emailContatoInput.click();
+    await this.page.waitForTimeout(300);
+    await emailContatoInput.fill(emailContato);
     
     await this.page.keyboard.press('Escape');
     await this.page.waitForTimeout(500);
@@ -80,13 +83,14 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('checkbox', { name: 'PIX' }).check();
     
     await this.page.getByRole('textbox', { name: 'Chave PIX*' }).click();
+    await this.page.getByRole('textbox', { name: 'Chave PIX*' }).click();
     await this.page.getByRole('textbox', { name: 'Chave PIX*' }).fill(chavePix);
     
     await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).click();
     await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).fill(tipoChave);
     
     await this.page.waitForTimeout(1000);
-    await this.page.getByRole('button', { name: 'Salvar' }).click();
+    await this.page.getByRole('button', { name: 'Gerar' }).click();
 
     return { 
       proprietario: { codigo, cnpj, ie, razaoSocial, nomeFantasia, email, cep, numero, telefone, emailContato },
@@ -111,42 +115,45 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('link', { name: 'Proprietários e contratos' }).click();
     await this.page.getByRole('link', { name: 'Cadastrar' }).click();
     
-    await this.page.getByRole('textbox', { name: 'Código' }).click();
-    await this.page.getByRole('textbox', { name: 'Código' }).fill(codigo.toString());
+    await this.page.getByRole('textbox', { name: 'Código*' }).click();
+    await this.page.getByRole('textbox', { name: 'Código*' }).fill(codigo.toString());
     
-    const cnpjInput = this.page.getByRole('textbox', { name: 'CNPJ' });
+    const cnpjInput = this.page.getByRole('textbox', { name: 'CNPJ*' });
     await cnpjInput.click();
-    await this.page.waitForTimeout(300);
-    await cnpjInput.fill(cnpj);
+    await cnpjInput.pressSequentially(cnpj, { delay: 100 });
     await this.page.waitForTimeout(500);
     
-    await this.page.getByRole('textbox', { name: 'Inscrição Estadual (IE)' }).click();
-    await this.page.getByRole('textbox', { name: 'Inscrição Estadual (IE)' }).fill(ie.toString());
+    const ieInput = this.page.getByRole('textbox', { name: 'Inscrição Estadual (IE)*' });
+    await ieInput.click();
+    await ieInput.pressSequentially(ie.toString(), { delay: 100 });
+    await this.page.waitForTimeout(500);
     
-    await this.page.getByRole('textbox', { name: 'Razão Social' }).click();
-    await this.page.getByRole('textbox', { name: 'Razão Social' }).fill(razaoSocial);
+    await this.page.getByRole('textbox', { name: 'Razão Social*' }).click();
+    await this.page.getByRole('textbox', { name: 'Razão Social*' }).fill(razaoSocial);
     
-    await this.page.getByRole('textbox', { name: 'Nome Fantasia' }).click();
-    await this.page.getByRole('textbox', { name: 'Nome Fantasia' }).fill(nomeFantasia);
+    await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).click();
+    await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).fill(nomeFantasia);
     
-    await this.page.getByRole('textbox', { name: 'E-mail' }).click();
-    await this.page.getByRole('textbox', { name: 'E-mail' }).fill(email);
+    await this.page.getByRole('textbox', { name: 'E-mail*' }).click();
+    await this.page.getByRole('textbox', { name: 'E-mail*' }).fill(email);
     
-    const cepInput = this.page.getByRole('textbox', { name: 'CEP' });
+    const cepInput = this.page.getByRole('textbox', { name: 'CEP*' });
     await cepInput.click();
-    await this.page.waitForTimeout(300);
-    await cepInput.fill(cep);
-    await this.page.keyboard.press('Tab');
+    await cepInput.pressSequentially(cep, { delay: 100 });
     await this.page.waitForTimeout(3000);
     
-    await this.page.getByRole('spinbutton', { name: 'Número' }).click();
-    await this.page.getByRole('spinbutton', { name: 'Número' }).fill(numero.toString());
+    await this.page.getByRole('spinbutton', { name: 'Número*' }).click();
+    await this.page.getByRole('spinbutton', { name: 'Número*' }).fill(numero.toString());
     
-    await this.page.getByRole('textbox', { name: 'Telefone' }).click();
-    await this.page.getByRole('textbox', { name: 'Telefone' }).fill(telefone);
+    const telefoneInput = this.page.getByRole('textbox', { name: 'Telefone*' });
+    await telefoneInput.click();
+    await telefoneInput.pressSequentially(telefone, { delay: 100 });
+    await this.page.waitForTimeout(500);
     
-    await this.page.getByRole('textbox', { name: 'Email para contato' }).click();
-    await this.page.getByRole('textbox', { name: 'Email para contato' }).fill(emailContato);
+    const emailContatoInput = this.page.getByRole('textbox', { name: 'Email para contato*' });
+    await emailContatoInput.click();
+    await this.page.waitForTimeout(300);
+    await emailContatoInput.fill(emailContato);
     
     await this.page.keyboard.press('Escape');
     await this.page.waitForTimeout(500);
@@ -214,7 +221,7 @@ class CadastroProprietariosEContratosPage {
     await this.page.getByRole('textbox', { name: 'Tipo de Chave*' }).fill(tipoChave);
     
     await this.page.waitForTimeout(1000);
-    await this.page.getByRole('button', { name: 'Salvar' }).click();
+    await this.page.getByRole('button', { name: 'Gerar' }).click();
 
     return { chavePix, tipoChave };
   }

@@ -11,23 +11,17 @@ class SolicitacaoCartaoProprietarioPage {
 
     await this.page.getByRole('link', { name: 'Cartões' }).click();
     await this.page.getByRole('link', { name: 'Solicitar Cartão' }).click();
-    await this.page.waitForTimeout(1000);
     
     const cpfInput = this.page.getByRole('textbox', { name: 'CPF*' });
     await cpfInput.click();
-    await this.page.waitForTimeout(300);
-    await cpfInput.fill(cpf);
-    await this.page.waitForTimeout(2000);
+    await cpfInput.pressSequentially(cpf, { delay: 100 });
+    await this.page.waitForTimeout(1000);
     
     await this.page.getByText('Selecione um tipo de cartão').click();
-    await this.page.waitForTimeout(500);
-    await this.page.locator('div').filter({ hasText: tipoCartao }).nth(4).click();
+    await this.page.getByText(tipoCartao).click();
     
     await this.page.getByRole('textbox', { name: 'Pin*' }).click();
     await this.page.getByRole('textbox', { name: 'Pin*' }).fill(pin);
-    
-    await this.page.keyboard.press('Tab');
-    await this.page.waitForTimeout(1500);
     
     await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
 
@@ -35,7 +29,7 @@ class SolicitacaoCartaoProprietarioPage {
   }
 
   async validarSolicitacaoSucesso() {
-    await this.page.getByText('Cartão solicitado com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.getByText('Cartão criado com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
   }
 }
 

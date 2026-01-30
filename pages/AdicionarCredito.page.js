@@ -51,17 +51,17 @@ class AdicionarCreditoPage {
     // Usa .last() porque às vezes tem mais de um botão X na tela
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    // Espera 8 segundos pro backend processar tudo
+    // Espera mais tempo pro backend processar webhook do PIX
     // O saldo não atualiza na hora, precisa esperar
-    await this.page.waitForTimeout(8000);
+    await this.page.waitForTimeout(15000);
     
     // Atualiza a página pra pegar o saldo novo
     await this.page.reload();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(3000);
     
     // Vai pra tela de Saldos pra conferir
     await this.page.getByRole('link', { name: 'Saldos' }).click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(3000);
     
     // Pega o saldo atualizado e calcula quanto deveria ser
     const saldoAtual = await this.capturarSaldoSemNavegacao();
@@ -87,8 +87,8 @@ class AdicionarCreditoPage {
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.getByRole('button', { name: 'Adicionar Crédito' }).click();
     
-    await this.page.getByRole('spinbutton', { name: 'Valor a adicionar' }).click();
-    await this.page.getByRole('spinbutton', { name: 'Valor a adicionar' }).fill(valorCredito.toString());
+    await this.page.getByRole('spinbutton', { name: 'Valor a ser adicionado' }).click();
+    await this.page.getByRole('spinbutton', { name: 'Valor a ser adicionado' }).fill(valorCredito.toString());
     
     await this.page.getByRole('button', { name: 'Gerar QR Code' }).click();
     await this.page.waitForTimeout(2000);

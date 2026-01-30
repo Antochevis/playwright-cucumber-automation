@@ -5,7 +5,7 @@ class SolicitacaoCartaoClientePage {
 
   async solicitarCartao(cpf, dadosCartao = {}) {
     const {
-      tipoCartao = 'Cartão Virtual - Livre',
+      tipoCartao = 'Cartão Virtual - Saldo Livre',
       pin = '1234'
     } = dadosCartao;
 
@@ -35,7 +35,7 @@ class SolicitacaoCartaoClientePage {
   }
 
   async validarSolicitacaoSucesso() {
-    await this.page.getByText('Cartão solicitado com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.getByText('Cartão criado com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
   }
 }
 
