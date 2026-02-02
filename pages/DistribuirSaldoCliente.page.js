@@ -51,11 +51,7 @@ class DistribuirSaldoClientePage {
   }
 
   async validarSaldosAtualizados(saldosAnteriores, valorDistribuido) {
-    // Fechar todos os modais/dialogs abertos
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
-    await this.page.waitForTimeout(1000);
-    await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
-    await this.page.waitForTimeout(1000);
     
     await this.page.waitForTimeout(8000);
     
