@@ -1,4 +1,5 @@
 const { When, Then } = require('@cucumber/cucumber');
+const { gerarCPF } = require('../utils/gerador');
 
 When('eu solicito um cartao virtual de saldo livre para o operador cadastrado como proprietario', async function() {
   await this.solicitacaoCartaoProprietarioPage.solicitarCartao(this.cpfOperadorCadastrado);
@@ -31,11 +32,15 @@ When('eu solicito um cartao virtual de saldo livre para um operador nao cadastra
 });
 
 When('eu solicito 1 cartao fisico de saldo livre para um operador nao cadastrado como proprietario', async function() {
-  await this.solicitacaoCartaoProprietarioPage.solicitarCartoesFisicosParaUsuarioNaoCadastrado(1);
-  await this.solicitacaoCartaoProprietarioPage.gerarPedidoCartaoFisico('Pedido de 1 cartão físico para usuário novo - teste automatizado', 1);
+  const cpf = gerarCPF();
+  const nomeCompleto = 'Operador Teste 1';
+  const email = `andrey+${Date.now()}@rodosoft.com.br`;
+  await this.solicitacaoCartaoProprietarioPage.solicitarCartoesFisicosCompletosComPedido(cpf, nomeCompleto, email, 1, 'Pedido de 1 cartão físico - teste automatizado');
 });
 
 When('eu solicito 2 cartoes fisicos de saldo livre para um operador nao cadastrado como proprietario', async function() {
-  await this.solicitacaoCartaoProprietarioPage.solicitarCartoesFisicosParaUsuarioNaoCadastrado(2);
-  await this.solicitacaoCartaoProprietarioPage.gerarPedidoCartaoFisico('Pedido de 2 cartões físicos para usuário novo - teste automatizado', 2);
+  const cpf = gerarCPF();
+  const nomeCompleto = 'Operador Teste 2';
+  const email = `andrey+${Date.now()}@rodosoft.com.br`;
+  await this.solicitacaoCartaoProprietarioPage.solicitarCartoesFisicosCompletosComPedido(cpf, nomeCompleto, email, 2, 'Pedido de 2 cartões físicos - teste automatizado');
 });

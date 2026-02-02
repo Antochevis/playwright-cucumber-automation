@@ -7,6 +7,7 @@ const CadastroUsuarioPage = require('../pages/CadastroUsuario.page');
 const CadastroProprietariosEContratosPage = require('../pages/CadastroProprietariosEContratos.page');
 const CadastroClientesEContratosPage = require('../pages/CadastroClientesEContratos.page');
 const SolicitacaoCartaoPage = require('../pages/SolicitacaoCartao.page');
+const { gerarUsuarioCompleto } = require('../utils/gerador');
 
 setDefaultTimeout(60000);
 
@@ -28,6 +29,7 @@ Before(async function(scenario) {
   this.browser = browser;
   this.context = context;
   this.page = page;
+  this.gerador = { gerarUsuarioCompleto };
   this.loginPage = new LoginPage(page);
   this.cadastroPage = new CadastroPage(page);
   this.cadastroUsuarioPage = new CadastroUsuarioPage(page);

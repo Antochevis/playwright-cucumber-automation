@@ -28,13 +28,11 @@ Feature: Solicitacao de Cartao Virtual de Saldo Livre pelo Cliente
     When eu solicito um cartao virtual de saldo livre para um operador nao cadastrado como cliente
     Then o cartao virtual de saldo livre deve ser solicitado com sucesso pelo cliente
 
-  @skip
   Scenario: Solicitar 1 cartao fisico de saldo livre para operador nao cadastrado
     Given que eu faco login como "cliente"
     When eu solicito 1 cartao fisico de saldo livre para um operador nao cadastrado como cliente
     Then o pedido de cartao fisico deve ser gerado com sucesso pelo cliente
 
-  @skip
   Scenario: Solicitar 2 cartoes fisicos de saldo livre para operador nao cadastrado
     Given que eu faco login como "cliente"
     When eu solicito 2 cartoes fisicos de saldo livre para um operador nao cadastrado como cliente
