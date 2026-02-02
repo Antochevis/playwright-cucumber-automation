@@ -59,8 +59,9 @@ class CadastroProprietariosEContratosPage {
     
     const telefoneInput = this.page.getByRole('textbox', { name: 'Telefone*' });
     await telefoneInput.click();
-    await telefoneInput.pressSequentially(telefone, { delay: 100 });
-    await this.page.waitForTimeout(500);
+    await telefoneInput.clear();
+    await telefoneInput.pressSequentially(telefone, { delay: 150 });
+    await this.page.waitForTimeout(1500);
     
     const emailContatoInput = this.page.getByRole('textbox', { name: 'Email para contato*' });
     await emailContatoInput.click();
@@ -147,8 +148,9 @@ class CadastroProprietariosEContratosPage {
     
     const telefoneInput = this.page.getByRole('textbox', { name: 'Telefone*' });
     await telefoneInput.click();
-    await telefoneInput.pressSequentially(telefone, { delay: 100 });
-    await this.page.waitForTimeout(500);
+    await telefoneInput.clear();
+    await telefoneInput.pressSequentially(telefone, { delay: 150 });
+    await this.page.waitForTimeout(1500);
     
     const emailContatoInput = this.page.getByRole('textbox', { name: 'Email para contato*' });
     await emailContatoInput.click();

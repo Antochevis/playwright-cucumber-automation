@@ -65,9 +65,6 @@ class DistribuirSaldoCartaoPage {
     
     await this.page.waitForTimeout(8000);
     
-    await this.page.reload();
-    await this.page.waitForTimeout(2000);
-    
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
     
@@ -114,10 +111,7 @@ class DistribuirSaldoCartaoPage {
   async validarSaldoAtualizado(saldoAnterior, valorDistribuido) {
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    await this.page.waitForTimeout(8000);
-    
-    await this.page.reload();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(5000);
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);

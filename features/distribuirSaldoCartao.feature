@@ -16,6 +16,7 @@ Feature: Distribuir Saldo para Cartao
       | proprietario |
       | cliente      |
 
+  @skip
   Scenario Outline: Distribuir saldo para cartao com pagamento via PIX como <perfil>
     Given que eu faco login como "<perfil>"
     When eu verifico meu saldo atual

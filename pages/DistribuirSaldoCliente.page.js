@@ -51,12 +51,13 @@ class DistribuirSaldoClientePage {
   }
 
   async validarSaldosAtualizados(saldosAnteriores, valorDistribuido) {
+    // Fechar todos os modais/dialogs abertos
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
+    await this.page.waitForTimeout(1000);
+    await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
+    await this.page.waitForTimeout(1000);
     
     await this.page.waitForTimeout(8000);
-    
-    await this.page.reload();
-    await this.page.waitForTimeout(2000);
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
@@ -95,10 +96,7 @@ class DistribuirSaldoClientePage {
   async validarSaldoAtualizado(saldoAnterior, valorDistribuido) {
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    await this.page.waitForTimeout(8000);
-    
-    await this.page.reload();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(5000);
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
