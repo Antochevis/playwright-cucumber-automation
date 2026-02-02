@@ -1,24 +1,33 @@
 {
   "name": "automacao-pontopass",
   "version": "1.0.0",
-  "description": "Automação Playwright com Cucumber",
+  "description": "Automação Playwright com Cucumber - BDD Testing Framework",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
+    "test:dev": "cucumber-js --profile dev",
+    "test:ci": "cucumber-js --profile ci",
     "test:debug": "cucumber-js --format json:reports/cucumber-report.json",
+    "lint": "eslint . --ext .js --ignore-pattern node_modules",
+    "lint:fix": "eslint . --ext .js --fix --ignore-pattern node_modules",
+    "format": "prettier --write \"**/*.{js,json,feature,md}\"",
     "codegen": "playwright codegen"
   },
   "keywords": [
     "playwright",
     "cucumber",
     "automation",
-    "bdd"
+    "bdd",
+    "e2e",
+    "testing"
   ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@cucumber/cucumber": "^10.0.0",
-    "@playwright/test": "^1.48.0"
+    "@playwright/test": "^1.48.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5"
   },
   "dependencies": {
     "dotenv": "^17.2.3"

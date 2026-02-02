@@ -1,4 +1,4 @@
-const { Given, When, Then } = require('@cucumber/cucumber');
+const { When, Then } = require('@cucumber/cucumber');
 const AdicionarCreditoPage = require('../pages/AdicionarCredito.page');
 
 When('eu verifico o saldo atual', async function () {

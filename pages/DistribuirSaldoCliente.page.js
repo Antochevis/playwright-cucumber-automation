@@ -66,12 +66,12 @@ class DistribuirSaldoClientePage {
     const saldoProprietarioEsperado = saldosAnteriores.saldoProprietario - valorDistribuido;
     const saldoClienteEsperado = saldosAnteriores.saldoCliente + valorDistribuido;
     
-    console.log(`\nPROPRIETARIO:`);
+    console.log('\nPROPRIETARIO:');
     console.log(`   Saldo anterior: R$ ${saldosAnteriores.saldoProprietario.toFixed(2)}`);
     console.log(`   Saldo atual: R$ ${saldoProprietarioAtual.toFixed(2)}`);
     console.log(`   Saldo esperado: R$ ${saldoProprietarioEsperado.toFixed(2)}`);
     
-    console.log(`\nCLIENTE:`);
+    console.log('\nCLIENTE:');
     console.log(`   Saldo anterior: R$ ${saldosAnteriores.saldoCliente.toFixed(2)}`);
     console.log(`   Saldo atual: R$ ${saldoClienteAtual.toFixed(2)}`);
     console.log(`   Saldo esperado: R$ ${saldoClienteEsperado.toFixed(2)}`);

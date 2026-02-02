@@ -8,7 +8,7 @@ When('eu cadastro um novo cliente sem contrato', async function() {
   this.dadosCliente = await this.cadastroClientesEContratosPage.cadastrarCliente();
 });
 
-Given('existe um cliente cadastrado', async function() {
+Given('existe um cliente cadastrado', async () => {
 });
 
 When('eu cadastro um novo contrato para o cliente', async function() {

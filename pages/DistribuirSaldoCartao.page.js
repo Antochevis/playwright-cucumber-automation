@@ -90,7 +90,7 @@ class DistribuirSaldoCartaoPage {
     console.log(`   Saldo atual: R$ ${saldoUsuarioAtual.toFixed(2)}`);
     console.log(`   Saldo esperado: R$ ${saldoUsuarioEsperado.toFixed(2)}`);
     
-    console.log(`\nCARTOES:`);
+    console.log('\nCARTOES:');
     console.log(`   Saldo anterior: R$ ${saldosAnteriores.saldoCartoes.toFixed(2)}`);
     console.log(`   Saldo atual: R$ ${saldoCartoesAtual.toFixed(2)}`);
     console.log(`   Saldo esperado: R$ ${saldoCartoesEsperado.toFixed(2)}`);

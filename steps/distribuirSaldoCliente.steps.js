@@ -1,4 +1,4 @@
-const { Given, When, Then } = require('@cucumber/cucumber');
+const { When, Then } = require('@cucumber/cucumber');
 const DistribuirSaldoClientePage = require('../pages/DistribuirSaldoCliente.page');
 
 When('eu verifico meu saldo de proprietario', async function () {

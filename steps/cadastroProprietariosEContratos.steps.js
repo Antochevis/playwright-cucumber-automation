@@ -8,7 +8,7 @@ When('eu cadastro um novo proprietario sem contrato', async function() {
   this.dadosProprietario = await this.cadastroProprietariosEContratosPage.cadastrarProprietario();
 });
 
-Given('existe um proprietario cadastrado', async function() {
+Given('existe um proprietario cadastrado', async () => {
 });
 
 When('eu cadastro um novo contrato para o proprietario', async function() {

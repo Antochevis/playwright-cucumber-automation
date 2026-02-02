@@ -16,7 +16,7 @@ function validarCPF(cpf) {
     peso--;
   }
   let resto = sum % 11;
-  let digit1 = resto < 2 ? 0 : 11 - resto;
+  const digit1 = resto < 2 ? 0 : 11 - resto;
   
   if (parseInt(cpf[9]) !== digit1) {
     console.log(`Dígito 1 inválido: esperado ${digit1}, recebido ${cpf[9]}`);
@@ -31,7 +31,7 @@ function validarCPF(cpf) {
     peso--;
   }
   resto = sum % 11;
-  let digit2 = resto < 2 ? 0 : 11 - resto;
+  const digit2 = resto < 2 ? 0 : 11 - resto;
   
   if (parseInt(cpf[10]) !== digit2) {
     console.log(`Dígito 2 inválido: esperado ${digit2}, recebido ${cpf[10]}`);

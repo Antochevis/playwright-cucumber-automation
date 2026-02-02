@@ -1,4 +1,4 @@
-const { Given, When, Then } = require('@cucumber/cucumber');
+const { When, Then } = require('@cucumber/cucumber');
 const DistribuirSaldoCartaoPage = require('../pages/DistribuirSaldoCartao.page');
 
 When('eu verifico meu saldo atual', async function () {
@@ -22,7 +22,7 @@ When('eu distribuo saldo aleatorio para um cartao', async function () {
 });
 
 When('eu confirmo o pagamento com saldo disponivel', async function () {
-  console.log(`Metodo de pagamento: SALDO`);
+  console.log('Metodo de pagamento: SALDO');
   const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
   await distribuirSaldoCartaoPage.confirmarPagamentoComSaldo();
   
@@ -30,7 +30,7 @@ When('eu confirmo o pagamento com saldo disponivel', async function () {
 });
 
 When('eu confirmo o pagamento via PIX no gateway', async function () {
-  console.log(`Metodo de pagamento: PIX`);
+  console.log('Metodo de pagamento: PIX');
   const distribuirSaldoCartaoPage = new DistribuirSaldoCartaoPage(this.page, this.context);
   
   await distribuirSaldoCartaoPage.confirmarPagamentoComPIX();
