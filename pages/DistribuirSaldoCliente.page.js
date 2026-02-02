@@ -51,9 +51,33 @@ class DistribuirSaldoClientePage {
   }
 
   async validarSaldosAtualizados(saldosAnteriores, valorDistribuido) {
-    await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
+    await this.page.waitForTimeout(2000);
     
-    await this.page.waitForTimeout(8000);
+    try {
+      await this.page.getByRole('heading', { name: 'Pagamento aprovado' }).click();
+      await this.page.waitForTimeout(800);
+    } catch (error) {
+      console.log('Heading não encontrado');
+    }
+    
+    await this.page.waitForTimeout(1000);
+    try {
+      await this.page.getByRole('dialog').filter({ hasText: 'Fazer pagamento Pagamento' }).getByLabel('Fechar janela').click();
+      await this.page.waitForTimeout(1000);
+      console.log('Dialog de pagamento fechado');
+    } catch (error) {
+      console.log('Erro ao fechar dialog de pagamento:', error.message);
+    }
+    
+    try {
+      await this.page.getByRole('button', { name: 'Fechar janela' }).click();
+      await this.page.waitForTimeout(1000);
+      console.log('Dialog extra fechado');
+    } catch (error) {
+      console.log('Nenhum dialog extra para fechar');
+    }
+    
+    await this.page.waitForTimeout(2000);
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(2000);
