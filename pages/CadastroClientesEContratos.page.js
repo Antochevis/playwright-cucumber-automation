@@ -24,8 +24,6 @@ class CadastroClientesEContratosPage {
       tipoChave = 'exemplo'
     } = dadosContrato;
 
-    console.log('Dados gerados:', { codigo, cnpj, ie, cep, telefone });
-
     await this.page.getByRole('link', { name: 'Clientes e contratos' }).click();
     await this.page.getByRole('link', { name: 'Cadastrar' }).click();
     

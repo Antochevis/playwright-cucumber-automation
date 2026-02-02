@@ -42,10 +42,7 @@ class AdicionarCreditoPage {
   async validarSaldoAtualizado(saldoAnterior, valorAdicionado) {
     await this.page.getByRole('button', { name: 'Fechar janela' }).last().click();
     
-    await this.page.waitForTimeout(15000);
-    
-    await this.page.reload();
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(8000);
     
     await this.page.getByRole('link', { name: 'Saldos' }).click();
     await this.page.waitForTimeout(3000);
