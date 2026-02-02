@@ -226,5 +226,4 @@ Os testes geram relatórios HTML automaticamente em `reports/cucumber-report.htm
 
 ---
 
-**Versão**: 1.0.0 (Refatorado - Profissional)  
 **Atualizado**: Fevereiro 2026
