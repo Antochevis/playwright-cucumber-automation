@@ -25,3 +25,17 @@ Then('o pedido de cartao fisico deve ser gerado com sucesso pelo cliente', async
 Then('o pedido de cartoes fisicos deve ser gerado com sucesso pelo cliente', async function() {
   await this.solicitacaoCartaoClientePage.validarPedidoGeradoSucesso();
 });
+
+When('eu solicito um cartao virtual de saldo livre para um operador nao cadastrado como cliente', async function() {
+  await this.solicitacaoCartaoClientePage.solicitarCartaoParaUsuarioNaoCadastrado();
+});
+
+When('eu solicito 1 cartao fisico de saldo livre para um operador nao cadastrado como cliente', async function() {
+  await this.solicitacaoCartaoClientePage.solicitarCartoesFisicosParaUsuarioNaoCadastrado(1);
+  await this.solicitacaoCartaoClientePage.gerarPedidoCartaoFisico('Pedido de 1 cartão físico para usuário novo - teste automatizado', 1);
+});
+
+When('eu solicito 2 cartoes fisicos de saldo livre para um operador nao cadastrado como cliente', async function() {
+  await this.solicitacaoCartaoClientePage.solicitarCartoesFisicosParaUsuarioNaoCadastrado(2);
+  await this.solicitacaoCartaoClientePage.gerarPedidoCartaoFisico('Pedido de 2 cartões físicos para usuário novo - teste automatizado', 2);
+});

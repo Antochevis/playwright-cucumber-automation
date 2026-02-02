@@ -98,6 +98,38 @@ function gerarValorCredito() {
   return Math.floor(Math.random() * 901) + 100;
 }
 
+function gerarCPF() {
+  // Gerar 9 dígitos aleatórios
+  let cpf = '';
+  for (let i = 0; i < 9; i++) {
+    cpf += Math.floor(Math.random() * 10);
+  }
+  
+  // Calcular primeiro dígito verificador
+  let sum = 0;
+  let peso = 10;
+  for (let i = 0; i < 9; i++) {
+    sum += parseInt(cpf[i]) * peso;
+    peso--;
+  }
+  const remainder1 = sum % 11;
+  const digit1 = remainder1 < 2 ? 0 : 11 - remainder1;
+  cpf += digit1;
+  
+  // Calcular segundo dígito verificador
+  sum = 0;
+  peso = 11;
+  for (let i = 0; i < 10; i++) {
+    sum += parseInt(cpf[i]) * peso;
+    peso--;
+  }
+  const remainder2 = sum % 11;
+  const digit2 = remainder2 < 2 ? 0 : 11 - remainder2;
+  cpf += digit2;
+  
+  return cpf;
+}
+
 module.exports = {
   gerarNome,
   gerarEmail,
@@ -108,5 +140,6 @@ module.exports = {
   gerarCEP,
   gerarCodigo,
   gerarIE,
-  gerarValorCredito
+  gerarValorCredito,
+  gerarCPF
 };
