@@ -2,7 +2,7 @@ const { When, Then } = require('@cucumber/cucumber');
 const { gerarCPF } = require('../utils/gerador');
 
 When('eu solicito um cartao virtual de saldo livre para o operador cadastrado como proprietario', async function() {
-  await this.solicitacaoCartaoProprietarioPage.solicitarCartao(this.cpfOperadorCadastrado);
+  await this.solicitacaoCartaoProprietarioPage.solicitarCartaoParaOperadorCadastrado(this.cpfOperadorCadastrado);
 });
 
 When('eu solicito 1 cartao fisico de saldo livre para o operador cadastrado como proprietario', async function() {
@@ -16,7 +16,7 @@ When('eu solicito 2 cartoes fisicos de saldo livre para o operador cadastrado co
 });
 
 Then('o cartao virtual de saldo livre deve ser solicitado com sucesso pelo proprietario', async function() {
-  await this.solicitacaoCartaoProprietarioPage.validarSolicitacaoSucesso();
+  await this.solicitacaoCartaoProprietarioPage.validarSolicitacaoSucessoOperadorCadastrado();
 });
 
 Then('o pedido de cartao fisico deve ser gerado com sucesso pelo proprietario', async function() {

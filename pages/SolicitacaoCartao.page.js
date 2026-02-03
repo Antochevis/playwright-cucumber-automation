@@ -17,7 +17,8 @@ class SolicitacaoCartaoPage extends BasePage {
 
     const cpfInput = this.page.getByRole('textbox', { name: 'CPF*' });
     await cpfInput.click();
-    await cpfInput.pressSequentially(cpf, { delay: 100 });
+    await this.page.waitForTimeout(500);
+    await cpfInput.fill(cpf);
     await this.page.waitForTimeout(1000);
 
     await this.page.getByText('Selecione um tipo de cartão').click();
@@ -29,6 +30,51 @@ class SolicitacaoCartaoPage extends BasePage {
     await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
 
     this.logSuccess(`Cartão virtual solicitado com sucesso para CPF ${cpf}`);
+    return { cpf, tipoCartao, pin };
+  }
+
+  async solicitarCartaoParaOperadorCadastrado(cpf, dadosCartao = {}) {
+    const {
+      tipoCartao = 'Cartão Virtual - Saldo Livre',
+      pin = '1234'
+    } = dadosCartao;
+
+    // Fluxo para operador JÁ CADASTRADO no sistema
+    await this.page.getByRole('link', { name: 'Cartões' }).click();
+    await this.page.waitForTimeout(1000);
+    
+    await this.page.getByRole('link', { name: 'Solicitar Cartão' }).click();
+    await this.page.waitForTimeout(1000);
+
+    const cpfInput = this.page.getByRole('textbox', { name: 'CPF*' });
+    await cpfInput.click();
+    await this.page.waitForTimeout(500);
+    await cpfInput.fill(cpf);
+    await this.page.waitForTimeout(1000);
+
+    await this.page.getByText('Selecione um tipo de cartão').click();
+    await this.page.waitForTimeout(500);
+    await this.page.getByText(tipoCartao).click();
+    await this.page.waitForTimeout(500);
+
+    const pinInput = this.page.getByRole('textbox', { name: 'Pin*' });
+    await pinInput.click();
+    await this.page.waitForTimeout(500);
+    await pinInput.fill(pin);
+    await this.page.waitForTimeout(500);
+
+    await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
+    await this.page.waitForTimeout(2000);
+
+    // Validar sucesso clicando no toast
+    await this.page.getByText('Cartão criado com sucesso!').click();
+    await this.page.waitForTimeout(500);
+
+    // Clicar em Concluir e aguardar navegação
+    await this.page.getByRole('button', { name: 'Concluir' }).click();
+    await this.page.waitForTimeout(3000);
+
+    this.logSuccess(`Cartão ${tipoCartao} solicitado com sucesso para CPF ${cpf}`);
     return { cpf, tipoCartao, pin };
   }
 
@@ -92,6 +138,12 @@ class SolicitacaoCartaoPage extends BasePage {
       'E-mail para criação de senha'
     ], 15000);
     this.logSuccess('Solicitação de cartão validada com sucesso');
+  }
+
+  async validarSolicitacaoSucessoOperadorCadastrado() {
+    // Para operador cadastrado, a validação já foi feita no método solicitarCartaoParaOperadorCadastrado
+    // Este método existe apenas para manter consistência com os steps
+    this.logSuccess('Solicitação de cartão para operador cadastrado validada com sucesso');
   }
 
   async validarPedidoGeradoSucesso() {
