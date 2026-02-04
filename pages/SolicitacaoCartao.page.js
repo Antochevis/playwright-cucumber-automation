@@ -39,7 +39,6 @@ class SolicitacaoCartaoPage extends BasePage {
       pin = '1234'
     } = dadosCartao;
 
-    // Fluxo para operador JÁ CADASTRADO no sistema
     await this.page.getByRole('link', { name: 'Cartões' }).click();
     await this.page.waitForTimeout(1000);
     
@@ -66,11 +65,9 @@ class SolicitacaoCartaoPage extends BasePage {
     await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
     await this.page.waitForTimeout(2000);
 
-    // Validar sucesso clicando no toast
     await this.page.getByText('Cartão criado com sucesso!').click();
     await this.page.waitForTimeout(500);
 
-    // Clicar em Concluir e aguardar navegação
     await this.page.getByRole('button', { name: 'Concluir' }).click();
     await this.page.waitForTimeout(3000);
 
@@ -141,8 +138,6 @@ class SolicitacaoCartaoPage extends BasePage {
   }
 
   async validarSolicitacaoSucessoOperadorCadastrado() {
-    // Para operador cadastrado, a validação já foi feita no método solicitarCartaoParaOperadorCadastrado
-    // Este método existe apenas para manter consistência com os steps
     this.logSuccess('Solicitação de cartão para operador cadastrado validada com sucesso');
   }
 
@@ -268,22 +263,16 @@ class SolicitacaoCartaoPage extends BasePage {
     return { cpf, nomeCompleto, email, tipoCartao: 'Cartão Físico - Saldo Livre', quantidade };
   }
 
-  /**
-   * Solicita cartão(ões) físico(s) para usuário não cadastrado E gera o pedido
-   * Fluxo completo: login > navegação > preenchimento > solicitação > geração de pedido
-   */
   async solicitarCartoesFisicosCompletosComPedido(cpfBase, nomeCompleto, email, quantidade = 1, descricao = 'descricao') {
-    // Navega para Cartões > Solicitar Cartão
     await this.page.getByRole('link', { name: 'Cartões' }).click();
     await this.page.getByRole('link', { name: 'Solicitar Cartão' }).click();
     await this.page.waitForTimeout(1000);
 
-    // Preenche formulário para usuário novo
     for (let i = 0; i < quantidade; i++) {
-      const cpf = gerarCPF(); // Gera um novo CPF a cada cartão
+      const cpf = gerarCPF();
       const nomeUnico = `${nomeCompleto} ${i + 1}`;
-      const emailBase = email.split('+')[0]; // Pega só "andrey" antes do primeiro +
-      const emailDomain = email.split('@')[1]; // Pega "rodosoft.com.br"
+      const emailBase = email.split('+')[0];
+      const emailDomain = email.split('@')[1];
       const emailUnico = `${emailBase}+${Date.now() + i}@${emailDomain}`;
 
       const cpfInput = this.page.getByRole('textbox', { name: 'CPF*' });
@@ -315,28 +304,23 @@ class SolicitacaoCartaoPage extends BasePage {
       await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
       await this.page.waitForTimeout(2000);
 
-      // Valida sucesso da solicitação
       await this.waitForOneOfMessages([
         'Cartão solicitado com sucesso!',
         'E-mail para criação de senha'
       ], 10000);
 
       if (i < quantidade - 1) {
-        // Se há mais cartões, clica "Solicitar mais cartões"
         await this.page.getByRole('button', { name: 'Solicitar mais cartões' }).click();
         await this.page.waitForTimeout(1000);
       }
     }
 
-    // Gera pedido de cartão (após o último cartão)
     await this.page.getByRole('button', { name: 'Gerar pedido' }).click();
     await this.page.waitForTimeout(500);
 
-    // Dialog: clica em Gerar pedido
     await this.page.getByRole('dialog').getByRole('button', { name: 'Gerar pedido' }).click();
     await this.page.waitForTimeout(500);
 
-    // Preenche descrição e confirma
     const descricaoInput = this.page.getByRole('textbox', { name: 'Descrição*' });
     await descricaoInput.click();
     await this.page.waitForTimeout(300);
@@ -345,7 +329,6 @@ class SolicitacaoCartaoPage extends BasePage {
     await this.page.getByRole('button', { name: 'Confirmar' }).click();
     await this.page.waitForTimeout(1000);
 
-    // Valida sucesso do pedido
     await this.waitForMessage('Pedido de cartão enviado para', 10000);
     this.logSuccess(`Pedido de ${quantidade} cartão(ões) físico(s) gerado com sucesso`);
 

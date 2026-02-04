@@ -65,11 +65,11 @@ class BasePage {
   }
 
   logSuccess(message) {
-    console.log(`✅ ${message}`);
+    console.log(`${message}`);
   }
 
   logError(message) {
-    console.error(`❌ ${message}`);
+    console.error(`${message}`);
   }
 }
 
