@@ -1,4 +1,4 @@
-const { gerarCpf } = require('../utils/cpf');
+const { gerarCpf } = require('../utils/gerador');
 const { gerarNome, gerarEmail } = require('../utils/gerador');
 
 class CadastroUsuarioPage {
