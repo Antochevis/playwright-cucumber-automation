@@ -1,5 +1,5 @@
 const BasePage = require('../support/BasePage');
-const { gerarCPF } = require('../utils/gerador');
+const { gerarCpf } = require('../utils/gerador');
 
 class SolicitacaoCartaoPage extends BasePage {
   constructor(page) {
@@ -147,18 +147,97 @@ class SolicitacaoCartaoPage extends BasePage {
   }
 
   async solicitarCartaoParaUsuarioNaoCadastrado(dadosCartao = {}) {
-    const cpf = gerarCPF();
-    const nomeCompleto = 'Usuário Teste Automatizado';
-    const email = `andrey+${Date.now()}@rodosoft.com.br`;
-    
-    this.log(`Gerando CPF: ${cpf}`);
-    return await this.solicitarCartaoCompleto(cpf, nomeCompleto, email, dadosCartao);
+    // Permite passar cpf, nome, email fixos para facilitar cenários de teste
+    const cpf = dadosCartao.cpf || gerarCpf();
+    const nomeCompleto = dadosCartao.nomeCompleto || 'nome completo';
+    const email = dadosCartao.email || `andrey+${Date.now()}@rodosoft.com.br`;
+    const permissoes = dadosCartao.permissoes || [
+      'Empresas', 'Usuários', 'Cartões', 'Saldos', 'Pedidos', 'Painel'
+    ];
+    const selecionarTodas = dadosCartao.selecionarTodas || false;
+    const tipoCartao = dadosCartao.tipoCartao || 'Cartão Virtual - Saldo Livre';
+    const pin = dadosCartao.pin || '1234';
+
+    await this.page.getByRole('link', { name: 'Cartões' }).click();
+    await this.page.getByRole('link', { name: 'Solicitar Cartão' }).click();
+
+    const cpfInput = this.page.getByRole('textbox', { name: 'CPF*' });
+    await cpfInput.click();
+    await cpfInput.fill(cpf);
+    await this.page.waitForTimeout(500);
+
+    const nomeInput = this.page.getByRole('textbox', { name: 'Nome completo*' });
+    await nomeInput.click();
+    await nomeInput.fill(nomeCompleto);
+
+    const emailInput = this.page.getByRole('textbox', { name: 'Email*' });
+    await emailInput.click();
+    await emailInput.fill(email);
+
+    await this.page.getByRole('textbox', { name: 'Perfil*' }).click();
+    await this.page.getByText('Operador').click();
+    await this.page.waitForTimeout(300);
+
+    // Permissões de operador
+    await this.page.getByRole('textbox', { name: 'Permissões de operador' }).click();
+    if (selecionarTodas) {
+      await this.page.getByText('Selecionar todas as permissões').click();
+    } else {
+      for (const permissao of permissoes) {
+        const el = this.page.getByText(permissao);
+        const isVisible = await el.isVisible({ timeout: 1000 }).catch(() => false);
+        if (isVisible) {
+          await el.click();
+        }
+      }
+    }
+    // Fecha overlay se necessário
+    try {
+      await this.page.locator('body').click({ position: { x: 10, y: 10 } });
+    } catch {}
+
+    await this.page.getByText('Selecione um tipo de cartão').click();
+    await this.page.getByText(tipoCartao).click();
+
+    if (tipoCartao.includes('Virtual')) {
+      await this.page.getByRole('textbox', { name: 'Pin*' }).click();
+      await this.page.getByRole('textbox', { name: 'Pin*' }).fill(pin);
+    }
+
+    await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
+
+    // Validações de toasts
+    await this.waitForOneOfMessages([
+      'Usuário cadastrado com',
+      'Cartão solicitado com sucesso!',
+      'Cartão criado com sucesso!'
+    ], 10000);
+
+    // Concluir ou redirecionar
+    if (tipoCartao.includes('Virtual')) {
+      try {
+        await this.page.getByRole('button', { name: 'Concluir' }).click({ timeout: 3000 });
+      } catch {}
+      await this.page.getByRole('heading', { name: 'Cartões' }).waitFor({ state: 'visible', timeout: 10000 });
+    }
+
+    this.logSuccess(`Cartão ${tipoCartao} solicitado para novo usuário: ${email}`);
+    return { cpf, nomeCompleto, email, tipoCartao, pin };
   }
 
   async solicitarCartaoCompleto(cpf, nomeCompleto, email, dadosCartao = {}) {
     const {
       tipoCartao = 'Cartão Virtual - Saldo Livre',
-      pin = '1234'
+      pin = '1234',
+      permissoes = [
+        'Empresas',
+        'Usuários',
+        'Cartões',
+        'Saldos',
+        'Pedidos',
+        'Painel'
+      ],
+      selecionarTodas = false
     } = dadosCartao;
 
     await this.page.getByRole('link', { name: 'Cartões' }).click();
@@ -181,6 +260,25 @@ class SolicitacaoCartaoPage extends BasePage {
     await this.page.getByText('Operador').click();
     await this.page.waitForTimeout(500);
 
+    // Permissões de operador
+    await this.page.getByRole('textbox', { name: 'Permissões de operador' }).click();
+    if (selecionarTodas) {
+      await this.page.getByText('Selecionar todas as permissões').click();
+    } else {
+      for (const permissao of permissoes) {
+        // Tenta clicar na permissão se ela existir
+        const el = this.page.getByText(permissao);
+        const isVisible = await el.isVisible({ timeout: 1000 }).catch(() => false);
+        if (isVisible) {
+          await el.click();
+        }
+      }
+    }
+    // Fecha o overlay de permissões se necessário
+    try {
+      await this.page.locator('body').click({ position: { x: 10, y: 10 } });
+    } catch {}
+
     await this.page.getByText('Selecione um tipo de cartão').click();
     await this.page.getByText(tipoCartao).click();
 
@@ -191,12 +289,27 @@ class SolicitacaoCartaoPage extends BasePage {
 
     await this.page.getByRole('button', { name: 'Solicitar Cartão' }).click();
 
+    // Validações de toasts
+    await this.waitForOneOfMessages([
+      'Usuário cadastrado com',
+      'Cartão solicitado com sucesso!',
+      'Cartão criado com sucesso!'
+    ], 10000);
+
+    // Concluir ou redirecionar
+    if (tipoCartao.includes('Virtual')) {
+      try {
+        await this.page.getByRole('button', { name: 'Concluir' }).click({ timeout: 3000 });
+      } catch {}
+      await this.page.getByRole('heading', { name: 'Cartões' }).waitFor({ state: 'visible', timeout: 10000 });
+    }
+
     this.logSuccess(`Cartão ${tipoCartao} solicitado para novo usuário: ${email}`);
     return { cpf, nomeCompleto, email, tipoCartao, pin };
   }
 
   async solicitarCartoesFisicosParaUsuarioNaoCadastrado(quantidade = 1) {
-    const cpf = gerarCPF();
+    const cpf = gerarCpf();
     const nomeCompleto = 'Usuário Teste Automatizado';
     const email = `andrey+${Date.now()}@rodosoft.com.br`;
     
@@ -269,7 +382,7 @@ class SolicitacaoCartaoPage extends BasePage {
     await this.page.waitForTimeout(1000);
 
     for (let i = 0; i < quantidade; i++) {
-      const cpf = gerarCPF();
+      const cpf = gerarCpf();
       const nomeUnico = `${nomeCompleto} ${i + 1}`;
       const emailBase = email.split('+')[0];
       const emailDomain = email.split('@')[1];
