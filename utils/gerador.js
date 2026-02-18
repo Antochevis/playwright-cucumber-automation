@@ -117,6 +117,36 @@ function formatarCPF(cpfDigits) {
   return cpfDigits.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
 }
 
+function gerarTipoEmpresa() {
+  const tipos = ['Empresa', 'Rodoviária'];
+  return tipos[Math.floor(Math.random() * tipos.length)];
+}
+
+function gerarTipoChavePix() {
+  const tipos = ['Celular', 'CNPJ', 'E-mail', 'Aleatória'];
+  return tipos[Math.floor(Math.random() * tipos.length)];
+}
+
+function gerarChavePix() {
+  const tipos = ['11999999999', '12345678000190', 'teste@email.com', Math.random().toString(36).substring(7)];
+  return tipos[Math.floor(Math.random() * tipos.length)];
+}
+
+function gerarTipoBalanceador() {
+  const tipos = ['Rodosoft', 'Independente'];
+  return tipos[Math.floor(Math.random() * tipos.length)];
+}
+
+function gerarPermissoesPorPerfil(perfil) {
+  const permissoes = {
+    integrador: ['Empresas', 'Usuários', 'Painel', 'Dashboard'],
+    proprietario: ['Empresas', 'Usuários', 'Cartões', 'Saldos', 'Pedidos', 'Painel'],
+    cliente: ['Usuários', 'Cartões', 'Saldos', 'Pedidos']
+  };
+  
+  return permissoes[perfil.toLowerCase()] || permissoes.proprietario;
+}
+
 module.exports = {
   gerarNome,
   gerarEmail,
@@ -129,5 +159,10 @@ module.exports = {
   gerarIE,
   gerarValorCredito,
   gerarCpf,
-  formatarCPF
+  formatarCPF,
+  gerarTipoEmpresa,
+  gerarTipoChavePix,
+  gerarChavePix,
+  gerarTipoBalanceador,
+  gerarPermissoesPorPerfil
 };

@@ -3,7 +3,6 @@ Feature: Adicionar Credito
   Quero adicionar credito via PIX
   Para disponibilizar saldo para meus usuarios
 
-  @skip
   Scenario Outline: Adicionar credito com pagamento PIX aprovado como <perfil>
     Given que eu faco login como "<perfil>"
     When eu verifico o saldo atual

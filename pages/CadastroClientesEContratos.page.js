@@ -1,4 +1,4 @@
-const { gerarCNPJ, gerarRazaoSocial, gerarNomeFantasia, gerarEmail, gerarTelefone, gerarCEP, gerarCodigo, gerarIE } = require('../utils/gerador');
+const { gerarCNPJ, gerarRazaoSocial, gerarNomeFantasia, gerarEmail, gerarTelefone, gerarCEP, gerarCodigo, gerarIE, gerarTipoEmpresa, gerarChavePix, gerarTipoChavePix } = require('../utils/gerador');
 
 class CadastroClientesEContratosPage {
   constructor(page) {
@@ -11,6 +11,7 @@ class CadastroClientesEContratosPage {
       cnpj = gerarCNPJ(),
       ie = gerarIE(),
       razaoSocial = gerarRazaoSocial(),
+      tipo = gerarTipoEmpresa(),
       nomeFantasia = gerarNomeFantasia(),
       email = gerarEmail('andrey'),
       cep = gerarCEP(),
@@ -20,15 +21,12 @@ class CadastroClientesEContratosPage {
     } = dadosCliente;
 
     const {
-      chavePix = 'chavepixexemplo',
-      tipoChave = 'exemplo'
+      chavePix = gerarChavePix(),
+      tipoChave = gerarTipoChavePix()
     } = dadosContrato;
 
     await this.page.getByRole('link', { name: 'Clientes e contratos' }).click();
     await this.page.getByRole('link', { name: 'Cadastrar' }).click();
-    
-    await this.page.getByRole('textbox', { name: 'Código*' }).click();
-    await this.page.getByRole('textbox', { name: 'Código*' }).fill(codigo.toString());
     
     const cnpjInput = this.page.getByRole('textbox', { name: 'CNPJ*' });
     await cnpjInput.click();
@@ -42,6 +40,9 @@ class CadastroClientesEContratosPage {
     
     await this.page.getByRole('textbox', { name: 'Razão Social*' }).click();
     await this.page.getByRole('textbox', { name: 'Razão Social*' }).fill(razaoSocial);
+    
+    await this.page.getByRole('textbox', { name: 'Tipo*' }).click();
+    await this.page.getByText(tipo, { exact: true }).click();
     
     await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).click();
     await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).fill(nomeFantasia);
@@ -91,32 +92,30 @@ class CadastroClientesEContratosPage {
     
     await this.page.waitForTimeout(1000);
     await this.page.getByRole('button', { name: 'Gerar' }).click();
+    await this.page.getByText('Contrato salvo com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
 
     return { 
-      cliente: { codigo, cnpj, ie, razaoSocial, nomeFantasia, email, cep, numero, telefone, emailContato },
+      cliente: { cnpj, ie, razaoSocial, tipo, nomeFantasia, email, cep, numero, telefone, emailContato },
       contrato: { chavePix, tipoChave }
     };
   }
 
   async cadastrarCliente(dadosCliente = {}) {
     const {
-      codigo = gerarCodigo(),
       cnpj = gerarCNPJ(),
       ie = gerarIE(),
       razaoSocial = gerarRazaoSocial(),
+      tipo = gerarTipoEmpresa(),
       nomeFantasia = gerarNomeFantasia(),
-      email = gerarEmail('andrey'),
+      email = gerarEmail('test'),
       cep = gerarCEP(),
       numero = Math.floor(Math.random() * 9000) + 1000,
       telefone = gerarTelefone(),
-      emailContato = gerarEmail('andrey')
+      emailContato = gerarEmail('test')
     } = dadosCliente;
 
     await this.page.getByRole('link', { name: 'Clientes e contratos' }).click();
     await this.page.getByRole('link', { name: 'Cadastrar' }).click();
-    
-    await this.page.getByRole('textbox', { name: 'Código*' }).click();
-    await this.page.getByRole('textbox', { name: 'Código*' }).fill(codigo.toString());
     
     const cnpjInput = this.page.getByRole('textbox', { name: 'CNPJ*' });
     await cnpjInput.click();
@@ -130,6 +129,9 @@ class CadastroClientesEContratosPage {
     
     await this.page.getByRole('textbox', { name: 'Razão Social*' }).click();
     await this.page.getByRole('textbox', { name: 'Razão Social*' }).fill(razaoSocial);
+    
+    await this.page.getByRole('textbox', { name: 'Tipo*' }).click();
+    await this.page.getByText(tipo, { exact: true }).click();
     
     await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).click();
     await this.page.getByRole('textbox', { name: 'Nome Fantasia*' }).fill(nomeFantasia);
@@ -163,14 +165,15 @@ class CadastroClientesEContratosPage {
     await this.page.getByText('Empresa cadastrada com sucesso', { exact: true }).waitFor({ state: 'visible', timeout: 10000 });
     
     await this.page.getByRole('button', { name: 'Não' }).click();
+    await this.page.getByRole('heading', { name: 'Clientes e contratos' }).waitFor({ state: 'visible', timeout: 10000 });
 
-    return { codigo, cnpj, ie, razaoSocial, nomeFantasia, email, cep, numero, telefone, emailContato };
+    return { cnpj, ie, razaoSocial, tipo, nomeFantasia, email, cep, numero, telefone, emailContato };
   }
 
   async cadastrarContrato(dadosContrato = {}) {
     const {
-      chavePix = 'chavepixexemplo',
-      tipoChave = 'exemplo'
+      chavePix = gerarChavePix(),
+      tipoChave = gerarTipoChavePix()
     } = dadosContrato;
 
     await this.page.getByRole('link', { name: 'Clientes e contratos' }).click();
@@ -220,6 +223,7 @@ class CadastroClientesEContratosPage {
     
     await this.page.waitForTimeout(1000);
     await this.page.getByRole('button', { name: 'Gerar' }).click();
+    await this.page.getByText('Contrato salvo com sucesso!').waitFor({ state: 'visible', timeout: 10000 });
 
     return { chavePix, tipoChave };
   }

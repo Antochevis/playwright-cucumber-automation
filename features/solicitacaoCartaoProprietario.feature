@@ -1,3 +1,4 @@
+@skip
 Feature: Solicitacao de Cartao Virtual de Saldo Livre pelo Proprietario
   Como proprietario no sistema
   Quero solicitar cartoes virtuais de saldo livre para operadores

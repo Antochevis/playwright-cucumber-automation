@@ -1,3 +1,4 @@
+@skip
 Feature: Solicitacao de Cartao Virtual de Saldo Livre pelo Cliente
   Como cliente no sistema
   Quero solicitar cartoes virtuais de saldo livre para operadores

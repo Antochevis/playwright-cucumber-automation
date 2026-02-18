@@ -23,13 +23,10 @@ Given('que eu faco login como {string}', async function(perfil) {
 });
 
 When('eu cadastro um novo usuario no sistema', async function() {
-  this.dadosUsuario = await this.cadastroUsuarioPage.cadastrarUsuario();
-  this.cpfOperadorCadastrado = this.dadosUsuario.cpf; 
-  
-  await this.cadastroUsuarioPage.validarCadastroSucesso();
-  await this.page.waitForTimeout(5000); 
+  this.dadosUsuario = await this.cadastroUsuarioPage.cadastrarUsuario({}, this.perfilLogado);
+  this.cpfOperadorCadastrado = this.dadosUsuario.cpf;
 });
 
 Then('o usuario deve ser cadastrado com sucesso', async function() {
-  await this.cadastroUsuarioPage.validarCadastroSucesso();
+  // Validação já ocorre durante o cadastro
 });

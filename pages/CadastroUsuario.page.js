@@ -1,21 +1,21 @@
-const { gerarCpf } = require('../utils/gerador');
-const { gerarNome, gerarEmail } = require('../utils/gerador');
+const { gerarCpf, gerarNome, gerarEmail, gerarPermissoesPorPerfil } = require('../utils/gerador');
 
 class CadastroUsuarioPage {
   constructor(page) {
     this.page = page;
   }
 
-  async cadastrarUsuario(dados = {}) {
+  async cadastrarUsuario(dados = {}, perfil = 'proprietario') {
     const {
       cpf = gerarCpf(),
       nome = gerarNome(),
-      email = gerarEmail('andrey'),
-      perfil = 'Operador'
+      email = gerarEmail('test')
     } = dados;
 
+    const permissoes = gerarPermissoesPorPerfil(perfil);
+
     await this.page.getByRole('link', { name: 'Usuários' }).click();
-    await this.page.getByRole('link', { name: 'Cadastrar' }).click();
+    await this.page.getByRole('button', { name: 'Cadastrar' }).click();
     
     const cpfInput = this.page.getByRole('textbox', { name: 'CPF*' });
     await cpfInput.click();
@@ -30,15 +30,26 @@ class CadastroUsuarioPage {
     await this.page.getByRole('textbox', { name: 'Email*' }).fill(email);
     
     await this.page.getByRole('textbox', { name: 'Perfil*' }).click();
-    await this.page.getByText(perfil).click();
+    await this.page.getByText('Operador').click();
+    
+    await this.page.getByRole('textbox', { name: 'Permissões de operador' }).click();
+    
+    // Selecionar permissões dinamicamente
+    for (const permissao of permissoes) {
+      const permissaoElement = this.page.getByText(permissao);
+      const isVisible = await permissaoElement.isVisible({ timeout: 2000 }).catch(() => false);
+      
+      if (isVisible) {
+        await permissaoElement.click();
+      }
+    }
     
     await this.page.getByRole('button', { name: 'Cadastrar' }).click();
-
-    return { cpf, nome, email, perfil };
-  }
-
-  async validarCadastroSucesso() {
     await this.page.getByText('Cadastro realizado com sucesso').waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.getByText('E-mail para criação de senha').waitFor({ state: 'visible', timeout: 10000 });
+    await this.page.getByRole('heading', { name: 'Usuários' }).waitFor({ state: 'visible', timeout: 10000 });
+
+    return { cpf, nome, email, perfil, permissoes };
   }
 }
 
